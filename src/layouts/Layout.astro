@@ -11,8 +11,8 @@ const { title, description = '개인 아카이브' } = Astro.props;
 const currentPath = Astro.url.pathname;
 
 const navItems = [
-	{ href: '/', label: 'Work' },
-	{ href: '/about', label: 'About' },
+	{ href: '/work', label: 'Work', matches: ['/work', '/projects'] },
+	{ href: '/about', label: 'About', matches: ['/about'] },
 ];
 ---
 
@@ -37,7 +37,7 @@ const navItems = [
 				<nav class="mt-2 flex flex-col gap-1">
 					{
 						navItems.map((item) => {
-							const isActive = item.href === '/' ? currentPath === '/' : currentPath.startsWith(item.href);
+							const isActive = item.matches.some((prefix) => currentPath.startsWith(prefix));
 							return (
 								<a
 									href={item.href}
