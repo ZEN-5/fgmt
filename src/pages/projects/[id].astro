@@ -20,12 +20,12 @@ const { Content } = await render(project);
 
 	<article class="mt-6">
 		<header class="mb-8">
-			<h1 class="text-3xl font-semibold tracking-tight">{project.data.title}</h1>
+			<h1 class="text-3xl font-semibold tracking-tight text-neutral-100">{project.data.title}</h1>
 			<p class="mt-2 text-neutral-400">{project.data.summary}</p>
 			<div class="mt-4 flex flex-wrap gap-2">
 				{
 					project.data.tags.map((tag) => (
-						<span class="rounded-full bg-neutral-800 px-2.5 py-1 text-xs text-neutral-300">
+						<span class="rounded-full bg-white/5 px-2.5 py-1 text-xs text-neutral-300">
 							{tag}
 						</span>
 					))
@@ -38,7 +38,7 @@ const { Content } = await render(project);
 			alt={project.data.title}
 			width={1200}
 			height={800}
-			class="w-full rounded-xl border border-neutral-800"
+			class="w-full rounded-xl shadow-[0_0_0_1px_rgba(255,255,255,0.1)]"
 		/>
 
 		<div class="prose prose-invert mt-10 max-w-none">

@@ -7,6 +7,12 @@ interface Props {
 }
 
 const { title, description = '개인 아카이브' } = Astro.props;
+const currentPath = Astro.url.pathname;
+
+const navItems = [
+	{ href: '/', label: 'Work' },
+	{ href: '/about', label: 'About' },
+];
 ---
 
 <html lang="ko">
@@ -18,21 +24,43 @@ const { title, description = '개인 아카이브' } = Astro.props;
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 	</head>
-	<body class="min-h-screen bg-neutral-950 text-neutral-100 antialiased">
-		<header class="border-b border-neutral-800">
-			<nav class="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
-				<a href="/" class="text-sm font-semibold tracking-widest uppercase">FGMT</a>
-				<div class="flex gap-6 text-sm text-neutral-400">
-					<a href="/" class="hover:text-neutral-100">Work</a>
-					<a href="/about" class="hover:text-neutral-100">About</a>
-				</div>
-			</nav>
-		</header>
-		<main class="mx-auto max-w-5xl px-6 py-12">
-			<slot />
-		</main>
-		<footer class="mx-auto max-w-5xl px-6 py-10 text-sm text-neutral-500">
-			© {new Date().getFullYear()} · Personal Archive
-		</footer>
+	<body class="min-h-screen bg-[#1f1f1f] font-sans text-neutral-300 antialiased">
+		<div class="flex min-h-screen">
+			<aside class="flex w-60 shrink-0 flex-col border-r border-white/10 px-4 py-6">
+				<a href="/" class="px-2 text-sm font-semibold tracking-widest text-neutral-100 uppercase">
+					FGMT
+				</a>
+
+				<p class="mt-8 px-2 text-xs font-medium tracking-wider text-neutral-500 uppercase">Menu</p>
+				<nav class="mt-2 flex flex-col gap-1">
+					{
+						navItems.map((item) => {
+							const isActive = item.href === '/' ? currentPath === '/' : currentPath.startsWith(item.href);
+							return (
+								<a
+									href={item.href}
+									class={`rounded-xl px-3 py-2 text-sm font-medium transition ${
+										isActive
+											? 'bg-white/10 text-neutral-100'
+											: 'text-neutral-400 hover:bg-white/5 hover:text-neutral-100'
+									}`}
+								>
+									{item.label}
+								</a>
+							);
+						})
+					}
+				</nav>
+			</aside>
+
+			<div class="flex flex-1 flex-col">
+				<main class="mx-auto w-full max-w-4xl flex-1 px-8 py-12">
+					<slot />
+				</main>
+				<footer class="mx-auto w-full max-w-4xl px-8 py-8 text-sm text-neutral-500">
+					© {new Date().getFullYear()} · Personal Archive
+				</footer>
+			</div>
+		</div>
 	</body>
 </html>
