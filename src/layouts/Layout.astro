@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import DotGrid from '../components/DotGrid.astro';
 
 interface Props {
 	title: string;
@@ -25,6 +26,7 @@ const navItems = [
 		<title>{title}</title>
 	</head>
 	<body class="min-h-screen bg-[#1f1f1f] font-sans text-neutral-300 antialiased">
+		<DotGrid />
 		<div class="flex min-h-screen">
 			<aside class="flex w-60 shrink-0 flex-col border-r border-white/10 px-4 py-6">
 				<a href="/" class="px-2 text-sm font-semibold tracking-widest text-neutral-100 uppercase">

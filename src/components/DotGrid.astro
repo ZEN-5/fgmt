@@ -1,0 +1,166 @@
+<canvas id="dot-grid" class="pointer-events-none fixed inset-0 -z-10" aria-hidden="true"></canvas>
+
+<script>
+	(function () {
+		const canvas = document.getElementById('dot-grid');
+		if (!(canvas instanceof HTMLCanvasElement)) return;
+		const ctx = canvas.getContext('2d');
+		if (!ctx) return;
+
+		// grid
+		const SPACING = 32;
+		const DOT_RADIUS = 1;
+		const DOT_RADIUS_MAX = 1.5;
+
+		// dot color — white works on this site's dark background; for a light
+		// background, swap to a dark rgb and keep the same alpha range.
+		const DOT_COLOR = '255, 255, 255';
+		const ALPHA_BASE = 0.08;
+		const ALPHA_MAX = 0.25;
+
+		// mouse influence
+		const INFLUENCE_RADIUS = 120;
+		const MAX_DISPLACEMENT = 6;
+
+		// spring physics
+		const SPRING = 0.12;
+		const DAMPING = 0.72;
+		const SETTLE_EPSILON = 0.02;
+		const MOUSE_IDLE_MS = 100;
+
+		let dpr = Math.min(window.devicePixelRatio || 1, 2);
+		let width = 0;
+		let height = 0;
+		let dots: {
+			ox: number;
+			oy: number;
+			x: number;
+			y: number;
+			vx: number;
+			vy: number;
+			r: number;
+			a: number;
+		}[] = [];
+		let mouse = { x: -9999, y: -9999, active: false };
+		let rafId: number | null = null;
+		let idleTimer: ReturnType<typeof setTimeout> | undefined;
+		let resizeTimer: ReturnType<typeof setTimeout> | undefined;
+
+		function buildGrid() {
+			width = window.innerWidth;
+			height = window.innerHeight;
+			dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+			canvas.width = width * dpr;
+			canvas.height = height * dpr;
+			canvas.style.width = width + 'px';
+			canvas.style.height = height + 'px';
+			ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+			const cols = Math.ceil(width / SPACING) + 1;
+			const rows = Math.ceil(height / SPACING) + 1;
+
+			dots = [];
+			for (let iy = 0; iy < rows; iy++) {
+				for (let ix = 0; ix < cols; ix++) {
+					const ox = ix * SPACING;
+					const oy = iy * SPACING;
+					dots.push({ ox, oy, x: ox, y: oy, vx: 0, vy: 0, r: DOT_RADIUS, a: ALPHA_BASE });
+				}
+			}
+		}
+
+		function step() {
+			let moving = false;
+			ctx.clearRect(0, 0, width, height);
+
+			for (const d of dots) {
+				let tx = d.ox;
+				let ty = d.oy;
+				let targetR = DOT_RADIUS;
+				let targetA = ALPHA_BASE;
+
+				if (mouse.active) {
+					const dx = mouse.x - d.ox;
+					const dy = mouse.y - d.oy;
+					const dist = Math.sqrt(dx * dx + dy * dy);
+					if (dist < INFLUENCE_RADIUS) {
+						const strength = 1 - dist / INFLUENCE_RADIUS;
+						const pull = MAX_DISPLACEMENT * strength;
+						const angle = Math.atan2(dy, dx);
+						tx = d.ox + Math.cos(angle) * pull;
+						ty = d.oy + Math.sin(angle) * pull;
+						targetR = DOT_RADIUS + (DOT_RADIUS_MAX - DOT_RADIUS) * strength;
+						targetA = ALPHA_BASE + (ALPHA_MAX - ALPHA_BASE) * strength;
+					}
+				}
+
+				// spring toward the (possibly mouse-displaced) target, with damping
+				const ax = (tx - d.x) * SPRING;
+				const ay = (ty - d.y) * SPRING;
+				d.vx = (d.vx + ax) * DAMPING;
+				d.vy = (d.vy + ay) * DAMPING;
+				d.x += d.vx;
+				d.y += d.vy;
+				d.r += (targetR - d.r) * 0.2;
+				d.a += (targetA - d.a) * 0.2;
+
+				if (
+					Math.abs(d.vx) > SETTLE_EPSILON ||
+					Math.abs(d.vy) > SETTLE_EPSILON ||
+					Math.abs(d.x - tx) > SETTLE_EPSILON ||
+					Math.abs(d.y - ty) > SETTLE_EPSILON
+				) {
+					moving = true;
+				}
+
+				ctx.beginPath();
+				ctx.fillStyle = `rgba(${DOT_COLOR}, ${d.a})`;
+				ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+				ctx.fill();
+			}
+
+			// stop the loop once every dot has settled — resumes on the next
+			// mousemove/resize instead of redrawing an idle scene every frame.
+			rafId = moving ? requestAnimationFrame(step) : null;
+		}
+
+		function wake() {
+			if (rafId === null) {
+				rafId = requestAnimationFrame(step);
+			}
+		}
+
+		function handleMouseMove(e: MouseEvent) {
+			mouse.x = e.clientX;
+			mouse.y = e.clientY;
+			mouse.active = true;
+			wake();
+			clearTimeout(idleTimer);
+			idleTimer = setTimeout(() => {
+				mouse.active = false;
+				wake();
+			}, MOUSE_IDLE_MS);
+		}
+
+		function handleMouseLeave() {
+			mouse.active = false;
+			wake();
+		}
+
+		function handleResize() {
+			clearTimeout(resizeTimer);
+			resizeTimer = setTimeout(() => {
+				buildGrid();
+				wake();
+			}, 150);
+		}
+
+		buildGrid();
+		step();
+
+		window.addEventListener('mousemove', handleMouseMove, { passive: true });
+		window.addEventListener('mouseleave', handleMouseLeave);
+		window.addEventListener('resize', handleResize);
+	})();
+</script>
