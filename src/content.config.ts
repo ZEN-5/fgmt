@@ -20,7 +20,14 @@ const deliveries = defineCollection({
 		z.object({
 			client: z.string(),
 			title: z.string(),
-			images: z.array(image()),
+			drafts: z.array(
+				z.object({
+					slug: z.string(),
+					label: z.string(),
+					thumbnail: image(),
+					images: z.array(image()),
+				})
+			),
 		}),
 });
 

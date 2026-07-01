@@ -1,0 +1,61 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import DeliveryLayout from '../../../layouts/DeliveryLayout.astro';
+
+export async function getStaticPaths() {
+	const deliveries = await getCollection('deliveries');
+	return deliveries.flatMap((delivery) =>
+		delivery.data.drafts.map((draft) => ({
+			params: { id: delivery.id, draft: draft.slug },
+			props: { delivery, draft },
+		}))
+	);
+}
+
+const { delivery, draft } = Astro.props;
+---
+
+<DeliveryLayout title={`${draft.label} — ${delivery.data.title}`}>
+	<header class="mb-6">
+		<p class="text-sm text-neutral-400">{delivery.data.client}</p>
+		<h1 class="mt-1 text-2xl font-semibold tracking-tight">
+			{delivery.data.title} · {draft.label}
+		</h1>
+		<p class="mt-2 text-sm text-neutral-500">
+			이미지를 클릭하면 다음 장으로 넘어갑니다 (<span id="counter">1</span> / {draft.images.length})
+		</p>
+	</header>
+
+	<a href={`/delivery/${delivery.id}`} class="text-sm text-neutral-400 hover:text-neutral-100">
+		← 다른 시안 보기
+	</a>
+
+	<div id="viewer" class="mt-6 cursor-pointer select-none">
+		{
+			draft.images.map((img, i) => (
+				<Image
+					src={img}
+					alt={`${draft.label} ${i + 1}`}
+					data-slide={i}
+					class={`w-full rounded-xl border border-neutral-800 ${i === 0 ? '' : 'hidden'}`}
+				/>
+			))
+		}
+	</div>
+
+	<script>
+		const viewer = document.getElementById('viewer');
+		const slides = viewer ? Array.from(viewer.querySelectorAll('img')) : [];
+		const counter = document.getElementById('counter');
+		let index = 0;
+
+		viewer?.addEventListener('click', () => {
+			if (slides.length < 2) return;
+			slides[index].classList.add('hidden');
+			index = (index + 1) % slides.length;
+			slides[index].classList.remove('hidden');
+			if (counter) counter.textContent = String(index + 1);
+		});
+	</script>
+</DeliveryLayout>
