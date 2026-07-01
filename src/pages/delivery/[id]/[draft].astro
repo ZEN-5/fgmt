@@ -42,7 +42,37 @@ const { delivery, draft } = Astro.props;
 		}
 	</div>
 
-	<script>
+	<aside class="fixed right-6 top-1/2 z-10 w-72 -translate-y-1/2 rounded-xl border border-neutral-800 bg-black/70 p-4 text-sm text-neutral-200 backdrop-blur">
+		<p class="mb-3 font-medium">이 시안에 대한 의견을 남겨주세요</p>
+		<form id="comment-form">
+			<input type="hidden" name="_subject" value={`[시안 코멘트] ${delivery.data.client} · ${draft.label}`} />
+			<input type="hidden" name="project" value={`${delivery.data.title} · ${draft.label}`} />
+			<label class="mb-1 block text-xs text-neutral-400" for="comment-name">이름 (선택)</label>
+			<input
+				id="comment-name"
+				name="name"
+				type="text"
+				class="mb-3 w-full rounded-md border border-neutral-700 bg-neutral-900 px-3 py-2 text-neutral-100 outline-none focus:border-neutral-500"
+			/>
+			<label class="mb-1 block text-xs text-neutral-400" for="comment-body">코멘트</label>
+			<textarea
+				id="comment-body"
+				name="comment"
+				required
+				rows="5"
+				class="mb-3 w-full rounded-md border border-neutral-700 bg-neutral-900 px-3 py-2 text-neutral-100 outline-none focus:border-neutral-500"
+			></textarea>
+			<button
+				type="submit"
+				class="w-full rounded-md bg-neutral-100 px-3 py-2 font-medium text-neutral-900 transition hover:bg-white"
+			>
+				보내기
+			</button>
+			<p id="comment-status" class="mt-2 text-xs text-neutral-400"></p>
+		</form>
+	</aside>
+
+	<script define:vars={{ formspreeId: import.meta.env.PUBLIC_FORMSPREE_ID ?? '' }}>
 		const viewer = document.getElementById('viewer');
 		const slides = viewer ? Array.from(viewer.querySelectorAll('img')) : [];
 		const counter = document.getElementById('counter');
@@ -54,6 +84,36 @@ const { delivery, draft } = Astro.props;
 			index = (index + 1) % slides.length;
 			slides[index].classList.remove('hidden');
 			if (counter) counter.textContent = String(index + 1);
+		});
+
+		const form = document.getElementById('comment-form');
+		const status = document.getElementById('comment-status');
+
+		form?.addEventListener('submit', async (e) => {
+			e.preventDefault();
+			if (!status) return;
+
+			if (!formspreeId) {
+				status.textContent = '코멘트 수신 설정이 아직 완료되지 않았습니다.';
+				return;
+			}
+
+			status.textContent = '전송 중...';
+			try {
+				const res = await fetch(`https://formspree.io/f/${formspreeId}`, {
+					method: 'POST',
+					headers: { Accept: 'application/json' },
+					body: new FormData(form),
+				});
+				if (res.ok) {
+					status.textContent = '전달되었습니다. 감사합니다!';
+					form.reset();
+				} else {
+					status.textContent = '전송에 실패했습니다. 다시 시도해주세요.';
+				}
+			} catch {
+				status.textContent = '전송에 실패했습니다. 다시 시도해주세요.';
+			}
 		});
 	</script>
 </DeliveryLayout>
