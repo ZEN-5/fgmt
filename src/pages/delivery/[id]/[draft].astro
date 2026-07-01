@@ -1,6 +1,5 @@
 ---
 import { getCollection } from 'astro:content';
-import { Image } from 'astro:assets';
 import DeliveryLayout from '../../../layouts/DeliveryLayout.astro';
 
 export async function getStaticPaths() {
@@ -32,9 +31,9 @@ const { delivery, draft } = Astro.props;
 
 	<div id="viewer" class="cursor-pointer select-none">
 		{
-			draft.images.map((img, i) => (
-				<Image
-					src={img}
+			draft.images.map((src, i) => (
+				<img
+					src={src}
 					alt={`${draft.label} ${i + 1}`}
 					data-slide={i}
 					class={`mx-auto block ${i === 0 ? '' : 'hidden'}`}

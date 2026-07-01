@@ -16,19 +16,18 @@ const projects = defineCollection({
 
 const deliveries = defineCollection({
 	loader: glob({ pattern: '**/*.md', base: './src/content/deliveries' }),
-	schema: ({ image }) =>
-		z.object({
-			client: z.string(),
-			title: z.string(),
-			drafts: z.array(
-				z.object({
-					slug: z.string(),
-					label: z.string(),
-					thumbnail: image(),
-					images: z.array(image()),
-				})
-			),
-		}),
+	schema: z.object({
+		client: z.string(),
+		title: z.string(),
+		drafts: z.array(
+			z.object({
+				slug: z.string(),
+				label: z.string(),
+				thumbnail: z.string(),
+				images: z.array(z.string()),
+			})
+		),
+	}),
 });
 
 export const collections = { projects, deliveries };
