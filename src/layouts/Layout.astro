@@ -27,42 +27,95 @@ const navItems = [
 	</head>
 	<body class="min-h-screen bg-[#1f1f1f] font-sans text-neutral-300 antialiased">
 		<DotGrid />
-		<div class="flex min-h-screen">
-			<aside class="flex w-60 shrink-0 flex-col border-r border-white/10 px-4 py-6">
-				<a href="/" class="px-2">
-					<img src="/logo.svg" alt="FGMT" class="h-5 w-auto" />
-				</a>
 
-				<p class="mt-8 px-2 text-xs font-medium tracking-wider text-neutral-500 uppercase">Menu</p>
-				<nav class="mt-2 flex flex-col gap-1">
+		<a href="/" class="fixed left-6 top-6 z-30">
+			<img src="/logo.svg" alt="FGMT" class="h-5 w-auto" />
+		</a>
+
+		<button
+			id="nav-toggle"
+			type="button"
+			aria-expanded="false"
+			aria-controls="nav-panel"
+			class="fixed left-1/2 top-6 z-30 -translate-x-1/2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-neutral-200 backdrop-blur transition hover:bg-white/10"
+		>
+			Menu
+		</button>
+
+		<div
+			id="nav-overlay"
+			class="pointer-events-none fixed inset-0 z-20 flex items-center justify-center bg-black/60 opacity-0 backdrop-blur-sm transition-opacity duration-200"
+		>
+			<nav
+				id="nav-panel"
+				class="scale-95 rounded-2xl border border-white/10 bg-[#1f1f1f] px-10 py-8 text-center shadow-2xl transition-transform duration-200"
+			>
+				<ul class="flex flex-col gap-2">
 					{
 						navItems.map((item) => {
 							const isActive = item.matches.some((prefix) => currentPath.startsWith(prefix));
 							return (
-								<a
-									href={item.href}
-									class={`rounded-xl px-3 py-2 text-sm font-medium transition ${
-										isActive
-											? 'bg-white/10 text-neutral-100'
-											: 'text-neutral-400 hover:bg-white/5 hover:text-neutral-100'
-									}`}
-								>
-									{item.label}
-								</a>
+								<li>
+									<a
+										href={item.href}
+										class={`block rounded-xl px-10 py-3 text-xl font-medium transition ${
+											isActive ? 'text-neutral-100' : 'text-neutral-400 hover:text-neutral-100'
+										}`}
+									>
+										{item.label}
+									</a>
+								</li>
 							);
 						})
 					}
-				</nav>
-			</aside>
-
-			<div class="flex flex-1 flex-col">
-				<main class="mx-auto w-full max-w-4xl flex-1 px-8 py-12">
-					<slot />
-				</main>
-				<footer class="mx-auto w-full max-w-4xl px-8 py-8 text-sm text-neutral-500">
-					© {new Date().getFullYear()} · Personal Archive
-				</footer>
-			</div>
+				</ul>
+			</nav>
 		</div>
+
+		<main class="mx-auto w-full max-w-4xl px-8 py-12">
+			<slot />
+		</main>
+		<footer class="mx-auto w-full max-w-4xl px-8 py-8 text-sm text-neutral-500">
+			© {new Date().getFullYear()} · Personal Archive
+		</footer>
+
+		<script>
+			const toggle = document.getElementById('nav-toggle');
+			const overlay = document.getElementById('nav-overlay');
+			const panel = document.getElementById('nav-panel');
+
+			function openMenu() {
+				overlay?.classList.remove('opacity-0', 'pointer-events-none');
+				overlay?.classList.add('opacity-100');
+				panel?.classList.remove('scale-95');
+				panel?.classList.add('scale-100');
+				toggle?.setAttribute('aria-expanded', 'true');
+			}
+
+			function closeMenu() {
+				overlay?.classList.add('opacity-0', 'pointer-events-none');
+				overlay?.classList.remove('opacity-100');
+				panel?.classList.add('scale-95');
+				panel?.classList.remove('scale-100');
+				toggle?.setAttribute('aria-expanded', 'false');
+			}
+
+			toggle?.addEventListener('click', () => {
+				const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+				if (isOpen) {
+					closeMenu();
+				} else {
+					openMenu();
+				}
+			});
+
+			overlay?.addEventListener('click', (e) => {
+				if (e.target === overlay) closeMenu();
+			});
+
+			document.addEventListener('keydown', (e) => {
+				if (e.key === 'Escape') closeMenu();
+			});
+		</script>
 	</body>
 </html>
