@@ -6,12 +6,14 @@ drafts:
     label: "A안"
     thumbnail: "/deliveries/sample-client/thumbnailA.jpg"
     images:
+      - "/deliveries/sample-client/A_info.jpg"
       - "/deliveries/sample-client/A1.jpg"
       - "/deliveries/sample-client/A2.jpg"
   - slug: "b"
     label: "B안"
     thumbnail: "/deliveries/sample-client/thumbnailB.jpg"
     images:
+      - "/deliveries/sample-client/B_info.jpg"
       - "/deliveries/sample-client/B1.jpg"
       - "/deliveries/sample-client/B2.jpg"
       - "/deliveries/sample-client/B3.jpg"
@@ -19,6 +21,7 @@ drafts:
     label: "C안"
     thumbnail: "/deliveries/sample-client/thumbnailC.jpg"
     images:
+      - "/deliveries/sample-client/C_info.jpg"
       - "/deliveries/sample-client/C1.jpg"
       - "/deliveries/sample-client/C2.jpg"
 ---
