@@ -27,17 +27,17 @@ const { delivery, draft } = Astro.props;
 	<p
 		class="fixed bottom-6 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-black/60 px-4 py-2 text-sm text-neutral-200 backdrop-blur"
 	>
-		이미지를 클릭하면 다음 장으로 넘어갑니다 (<span id="counter">1</span> / {draft.images.length})
+		이미지를 클릭하면 확대되고, 다시 클릭하면 다음 장으로 넘어갑니다 (<span id="counter">1</span> / {draft.images.length})
 	</p>
 
-	<div id="viewer" class="cursor-pointer select-none">
+	<div id="viewer" class="cursor-zoom-in select-none">
 		{
 			draft.images.map((img, i) => (
 				<Image
 					src={img}
 					alt={`${draft.label} ${i + 1}`}
 					data-slide={i}
-					class={`mx-auto block ${i === 0 ? '' : 'hidden'}`}
+					class={`mx-auto block max-h-screen max-w-full w-auto h-auto ${i === 0 ? '' : 'hidden'}`}
 				/>
 			))
 		}
@@ -47,11 +47,34 @@ const { delivery, draft } = Astro.props;
 		const viewer = document.getElementById('viewer');
 		const slides = viewer ? Array.from(viewer.querySelectorAll('img')) : [];
 		const counter = document.getElementById('counter');
+		const fitClasses = ['max-h-screen', 'max-w-full', 'w-auto', 'h-auto'];
 		let index = 0;
+		let zoomed = false;
+
+		function overflowsViewport(img: HTMLImageElement) {
+			return img.naturalWidth > window.innerWidth || img.naturalHeight > window.innerHeight;
+		}
 
 		viewer?.addEventListener('click', () => {
+			if (slides.length === 0) return;
+			const img = slides[index];
+
+			if (!zoomed && overflowsViewport(img)) {
+				img.classList.remove(...fitClasses);
+				zoomed = true;
+				viewer.classList.replace('cursor-zoom-in', 'cursor-zoom-out');
+				return;
+			}
+
+			if (zoomed) {
+				img.classList.add(...fitClasses);
+				zoomed = false;
+				viewer.classList.replace('cursor-zoom-out', 'cursor-zoom-in');
+			}
+
 			if (slides.length < 2) return;
-			slides[index].classList.add('hidden');
+
+			img.classList.add('hidden');
 			index = (index + 1) % slides.length;
 			slides[index].classList.remove('hidden');
 			if (counter) counter.textContent = String(index + 1);
