@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import DeliveryLayout from '../../layouts/DeliveryLayout.astro';
+
+export async function getStaticPaths() {
+	const deliveries = await getCollection('deliveries');
+	return deliveries.map((delivery) => ({
+		params: { id: delivery.id },
+		props: { delivery },
+	}));
+}
+
+const { delivery } = Astro.props;
+---
+
+<DeliveryLayout title={`${delivery.data.title} — ${delivery.data.client}`}>
+	<header class="mb-10">
+		<p class="text-sm text-neutral-400">{delivery.data.client}</p>
+		<h1 class="mt-1 text-2xl font-semibold tracking-tight">{delivery.data.title}</h1>
+	</header>
+
+	<div class="flex flex-col gap-10">
+		{
+			delivery.data.images.map((img) => (
+				<Image
+					src={img}
+					alt={delivery.data.title}
+					width={1600}
+					height={1000}
+					class="w-full rounded-xl border border-neutral-800"
+				/>
+			))
+		}
+	</div>
+</DeliveryLayout>
