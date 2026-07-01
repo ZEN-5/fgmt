@@ -16,29 +16,28 @@ export async function getStaticPaths() {
 const { delivery, draft } = Astro.props;
 ---
 
-<DeliveryLayout title={`${draft.label} — ${delivery.data.title}`}>
-	<header class="mb-6">
-		<p class="text-sm text-neutral-400">{delivery.data.client}</p>
-		<h1 class="mt-1 text-2xl font-semibold tracking-tight">
-			{delivery.data.title} · {draft.label}
-		</h1>
-		<p class="mt-2 text-sm text-neutral-500">
-			이미지를 클릭하면 다음 장으로 넘어갑니다 (<span id="counter">1</span> / {draft.images.length})
-		</p>
-	</header>
-
-	<a href={`/delivery/${delivery.id}`} class="text-sm text-neutral-400 hover:text-neutral-100">
+<DeliveryLayout title={`${draft.label} — ${delivery.data.title}`} fullBleed>
+	<a
+		href={`/delivery/${delivery.id}`}
+		class="fixed left-6 top-6 z-10 rounded-full bg-black/60 px-4 py-2 text-sm text-neutral-200 backdrop-blur hover:bg-black/80"
+	>
 		← 다른 시안 보기
 	</a>
 
-	<div id="viewer" class="mt-6 cursor-pointer select-none">
+	<p
+		class="fixed bottom-6 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-black/60 px-4 py-2 text-sm text-neutral-200 backdrop-blur"
+	>
+		이미지를 클릭하면 다음 장으로 넘어갑니다 (<span id="counter">1</span> / {draft.images.length})
+	</p>
+
+	<div id="viewer" class="cursor-pointer select-none">
 		{
 			draft.images.map((img, i) => (
 				<Image
 					src={img}
 					alt={`${draft.label} ${i + 1}`}
 					data-slide={i}
-					class={`w-full rounded-xl border border-neutral-800 ${i === 0 ? '' : 'hidden'}`}
+					class={`mx-auto block ${i === 0 ? '' : 'hidden'}`}
 				/>
 			))
 		}
