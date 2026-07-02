@@ -17,7 +17,7 @@ const { delivery, draft } = Astro.props;
 
 <DeliveryLayout
 	title={`${draft.label} — ${delivery.data.title}`}
-	image={delivery.data.ogImage ?? draft.thumbnail}
+	image={draft.thumbnail}
 	fullBleed
 >
 	<a
