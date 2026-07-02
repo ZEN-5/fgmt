@@ -5,9 +5,11 @@ import DotGrid from '../components/DotGrid.astro';
 interface Props {
 	title: string;
 	description?: string;
+	image?: string;
 }
 
-const { title, description = '개인 아카이브' } = Astro.props;
+const { title, description = '개인 아카이브', image = '/ogImage.jpg' } = Astro.props;
+const ogImage = new URL(image, Astro.site);
 const currentPath = Astro.url.pathname;
 
 const navItems = [
@@ -25,6 +27,15 @@ const navItems = [
 		<meta name="description" content={description} />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={Astro.url} />
+		<meta property="og:image" content={ogImage} />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImage} />
 	</head>
 	<body class="min-h-screen bg-[#1f1f1f] font-sans text-neutral-300 antialiased">
 		<DotGrid />

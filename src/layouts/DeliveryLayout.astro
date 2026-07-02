@@ -3,10 +3,12 @@ import '../styles/global.css';
 
 interface Props {
 	title: string;
+	image?: string;
 	fullBleed?: boolean;
 }
 
-const { title, fullBleed = false } = Astro.props;
+const { title, image, fullBleed = false } = Astro.props;
+const ogImage = image ? new URL(image, Astro.site) : undefined;
 ---
 
 <html lang="ko">
@@ -17,6 +19,12 @@ const { title, fullBleed = false } = Astro.props;
 		<meta name="robots" content="noindex, nofollow" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+		<meta property="og:title" content={title} />
+		<meta property="og:type" content="website" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		{ogImage && <meta property="og:image" content={ogImage} />}
+		{ogImage && <meta name="twitter:image" content={ogImage} />}
 	</head>
 	<body class="min-h-screen bg-[#1f1f1f] text-neutral-100 antialiased">
 		<main class={fullBleed ? '' : 'mx-auto max-w-4xl px-6 py-14'}>

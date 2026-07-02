@@ -1,0 +1,5 @@
+# Tells the Dropbox desktop client to never sync these build artifacts/caches.
+# Each machine (Mac, Windows) regenerates them locally via `npm install` / `astro dev` / `astro build`.
+node_modules
+.astro
+dist

@@ -19,6 +19,7 @@ const deliveries = defineCollection({
 	schema: z.object({
 		client: z.string(),
 		title: z.string(),
+		ogImage: z.string().optional(),
 		drafts: z.array(
 			z.object({
 				slug: z.string(),

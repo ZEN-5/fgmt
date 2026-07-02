@@ -15,7 +15,11 @@ export async function getStaticPaths() {
 const { delivery, draft } = Astro.props;
 ---
 
-<DeliveryLayout title={`${draft.label} — ${delivery.data.title}`} fullBleed>
+<DeliveryLayout
+	title={`${draft.label} — ${delivery.data.title}`}
+	image={delivery.data.ogImage ?? draft.thumbnail}
+	fullBleed
+>
 	<a
 		href={`/delivery/${delivery.id}`}
 		class="fixed left-6 top-6 z-10 rounded-full bg-black/60 px-4 py-2 text-sm text-neutral-200 backdrop-blur hover:bg-black/80"
