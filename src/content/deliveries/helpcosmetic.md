@@ -26,7 +26,7 @@ drafts:
   #     - "/deliveries/helpcosmetic/C1.jpg"
   #     - "/deliveries/helpcosmetic/C2.jpg"
   - slug: "d"
-    label: "D안"
+    label: "Type C - 수정사항 반영"
     thumbnail: "/deliveries/helpcosmetic/thumbnailD.jpg"
     images:
       - "/deliveries/helpcosmetic/D1.jpg"
