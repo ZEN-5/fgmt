@@ -26,7 +26,7 @@ const { delivery } = Astro.props;
 		{
 			delivery.data.drafts.map((draft) => (
 				<a
-					href={draft.href ?? `/delivery/${delivery.id}/${draft.slug}`}
+					href={`/delivery/${delivery.id}/${draft.slug}`}
 					class="group block overflow-hidden rounded-xl border border-neutral-800 transition hover:border-neutral-600"
 				>
 					<img

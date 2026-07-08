@@ -26,7 +26,6 @@ const deliveries = defineCollection({
 				label: z.string(),
 				thumbnail: z.string(),
 				images: z.array(z.string()),
-				href: z.string().optional(),
 			})
 		),
 	}),

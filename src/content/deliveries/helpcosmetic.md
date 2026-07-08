@@ -28,7 +28,6 @@ drafts:
   - slug: "d"
     label: "Type C - 수정사항 반영"
     thumbnail: "/deliveries/helpcosmetic/thumbnailD.jpg"
-    href: "/delivery/helpcosmetic/d-live"
     images:
       - "/deliveries/helpcosmetic/D1.jpg"
 ---
