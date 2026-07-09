@@ -29,5 +29,7 @@ drafts:
     label: "Type C - 수정사항 반영"
     thumbnail: "/deliveries/helpcosmetic/thumbnailD.jpg"
     images:
+      - "/deliveries/helpcosmetic/D_info.jpg"
       - "/deliveries/helpcosmetic/D1.jpg"
+      - "/deliveries/helpcosmetic/D2.jpg"
 ---
