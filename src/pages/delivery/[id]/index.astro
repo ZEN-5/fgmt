@@ -11,6 +11,16 @@ export async function getStaticPaths() {
 }
 
 const { delivery } = Astro.props;
+
+const sections = delivery.data.drafts.reduce((acc, draft) => {
+	const last = acc[acc.length - 1];
+	if (last && last.name === draft.section) {
+		last.drafts.push(draft);
+	} else {
+		acc.push({ name: draft.section, drafts: [draft] });
+	}
+	return acc;
+}, [] as { name: string; drafts: typeof delivery.data.drafts }[]);
 ---
 
 <DeliveryLayout
@@ -22,23 +32,30 @@ const { delivery } = Astro.props;
 		<h1 class="mt-1 text-2xl font-semibold tracking-tight">{delivery.data.title}</h1>
 	</header>
 
-	<div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-		{
-			delivery.data.drafts.map((draft) => (
-				<a
-					href={`/delivery/${delivery.id}/${draft.slug}`}
-					class="group block overflow-hidden rounded-xl border border-neutral-800 transition hover:border-neutral-600"
-				>
-					<img
-						src={draft.thumbnail}
-						alt={draft.label}
-						class="w-full transition duration-300 group-hover:opacity-90"
-					/>
-					<div class="px-4 py-3">
-						<p class="text-sm font-medium text-neutral-100">{draft.label}</p>
-					</div>
-				</a>
-			))
-		}
-	</div>
+	{
+		sections.map((section, i) => (
+			<section class={i > 0 ? 'mt-12 border-t border-neutral-800 pt-10' : ''}>
+				<h2 class="mb-4 text-sm font-semibold uppercase tracking-wide text-neutral-400">
+					{section.name}
+				</h2>
+				<div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+					{section.drafts.map((draft) => (
+						<a
+							href={`/delivery/${delivery.id}/${draft.slug}`}
+							class="group block overflow-hidden rounded-xl border border-neutral-800 transition hover:border-neutral-600"
+						>
+							<img
+								src={draft.thumbnail}
+								alt={draft.label}
+								class="w-full transition duration-300 group-hover:opacity-90"
+							/>
+							<div class="px-4 py-3">
+								<p class="text-sm font-medium text-neutral-100">{draft.label}</p>
+							</div>
+						</a>
+					))}
+				</div>
+			</section>
+		))
+	}
 </DeliveryLayout>

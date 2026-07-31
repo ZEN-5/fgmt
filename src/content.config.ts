@@ -26,6 +26,7 @@ const deliveries = defineCollection({
 				label: z.string(),
 				thumbnail: z.string(),
 				images: z.array(z.string()),
+				section: z.string().default('메인시안'),
 			})
 		),
 	}),

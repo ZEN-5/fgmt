@@ -32,4 +32,10 @@ drafts:
       - "/deliveries/helpcosmetic/D_info.jpg"
       - "/deliveries/helpcosmetic/D1.jpg"
       - "/deliveries/helpcosmetic/D2.jpg"
+  - slug: "e"
+    label: "콘텐츠 서브레이아웃"
+    section: "서브레이아웃"
+    thumbnail: "/deliveries/helpcosmetic/contents.jpg"
+    images:
+      - "/deliveries/helpcosmetic/contents.jpg"
 ---
