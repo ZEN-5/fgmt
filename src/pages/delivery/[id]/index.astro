@@ -41,13 +41,15 @@ const sections = delivery.data.drafts.reduce((acc, draft) => {
 				<div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
 					{section.drafts.map((draft) => (
 						<a
-							href={`/delivery/${delivery.id}/${draft.slug}`}
+							href={draft.href ?? `/delivery/${delivery.id}/${draft.slug}`}
 							class="group block overflow-hidden rounded-xl border border-neutral-800 transition hover:border-neutral-600"
 						>
 							<img
 								src={draft.thumbnail}
 								alt={draft.label}
-								class="w-full transition duration-300 group-hover:opacity-90"
+								class={`w-full transition duration-300 group-hover:opacity-90 ${
+									draft.slug === 'gnb' ? 'aspect-[1920/1295] object-cover object-top' : ''
+								}`}
 							/>
 							<div class="px-4 py-3">
 								<p class="text-sm font-medium text-neutral-100">{draft.label}</p>

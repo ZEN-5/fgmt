@@ -1,0 +1,170 @@
+---
+import DeliveryLayout from '../../../layouts/DeliveryLayout.astro';
+
+const base = '/deliveries/helpcosmetic';
+const icons = `${base}/gnb-live/icons`;
+
+const PAGE_W = 1920;
+const PAGE_H = 2055;
+const GNB_H = 95; // 5px skip-link bar + 90px nav bar
+
+const menu = [
+	{ label: '센터소개', submenu: ['인사말', '서비스 소개', '자료 업데이트 알림 신청'] },
+	{ label: '교육', submenu: ['교육안내', '규제 교육신청', '교육자료실'] },
+	{
+		label: '글로벌 규제정보',
+		submenu: ['국내법령', '해외법령', '세계법제정보센터', '해외동향정보지', '인허가 대행사 및 해외 규정 요약 자료집'],
+	},
+	{ label: '국내외 원료 규제정보', submenu: ['화장품 사용제한 원료', '화장품 국가별 규제정보', '화장품 비교검색'] },
+	{
+		label: '할랄 규제정보',
+		submenu: ['주요 국가 법령 및 가이드 라인', '할랄인증 절차 안내서', '할랄인증 면제 원료 목록', '국내 할랄 인증 원료 목록'],
+	},
+	{ label: '코스봇' },
+	{ label: '정부사업지원' },
+	{ label: 'ICCR', submenu: ['ICCR 개요', '토픽 및 문서'] },
+];
+---
+
+<DeliveryLayout
+	title="GNB 네비게이션 (코드 구현) — 화장품 글로벌 규제조화 지원센터 홈페이지 구축"
+	image={`${base}/thumbnailGnb.jpg`}
+	fullBleed
+>
+	<style>
+		@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
+
+		.gnb-live {
+			font-family: 'Pretendard', ui-sans-serif, system-ui, sans-serif;
+		}
+
+		.welcome-tip {
+			animation: welcome-tip 3.4s ease-in-out forwards;
+		}
+
+		@keyframes welcome-tip {
+			0% {
+				opacity: 0;
+				transform: translate(-50%, -10px);
+			}
+			12% {
+				opacity: 1;
+				transform: translate(-50%, 0);
+			}
+			80% {
+				opacity: 1;
+				transform: translate(-50%, 0);
+			}
+			100% {
+				opacity: 0;
+				transform: translate(-50%, -10px);
+			}
+		}
+	</style>
+
+	<a
+		href="/delivery/helpcosmetic"
+		class="fixed left-6 top-6 z-50 rounded-full bg-black/60 px-4 py-2 text-sm text-neutral-200 backdrop-blur hover:bg-black/80"
+	>
+		← 다른 시안 보기
+	</a>
+
+	<div class="gnb-live mx-auto w-[1920px] max-w-[1920px] bg-white text-[#222222]">
+		<!-- GNB -->
+		<header class="sticky top-0 z-30 w-full bg-white">
+			<div
+				class="h-[5px] w-full"
+				style="background-image: linear-gradient(178.46deg, rgba(75,27,147,0.9) 0.44%, rgba(93,110,197,0.9) 80%), linear-gradient(90deg, #4b1b93 0%, #4b1b93 100%);"
+			/>
+			<div class="mx-auto flex h-[90px] w-full max-w-[1280px] items-center justify-between border-b border-[#ebebeb] px-4">
+				<div class="whitespace-nowrap text-[16px] leading-[1.2] text-[#303030]">
+					<p>화장품 글로벌</p>
+					<p>규제조화 지원센터</p>
+				</div>
+
+				<div class="relative hidden lg:block">
+					<nav id="gnb-nav" class="flex items-center gap-[32px] whitespace-nowrap text-[18px] leading-[1.5]">
+						{
+							menu.map((item) =>
+								item.submenu ? (
+									<div class="group relative">
+										<button type="button" class="font-medium text-[#222] transition group-hover:font-bold group-hover:text-[#5d31ff]">
+											{item.label}
+										</button>
+										<div class="absolute left-1/2 top-full z-40 -translate-x-1/2 pt-3 opacity-0 pointer-events-none transition-opacity duration-150 group-hover:pointer-events-auto group-hover:opacity-100">
+											<div class="w-max max-w-[200px] rounded-xl border border-[#ebebeb] bg-white p-1.5 shadow-[0px_4px_6px_rgba(0,0,0,0.25)]">
+												{item.submenu.map((sub) => (
+													<a
+														href="#"
+														class="block whitespace-normal break-words rounded-md px-4 py-2.5 text-center text-[16px] font-medium text-[#444] transition hover:bg-[#f7f6fb] hover:text-[#222]"
+													>
+														{sub}
+													</a>
+												))}
+											</div>
+										</div>
+									</div>
+								) : (
+									<a href="#" class="font-medium text-[#222] transition hover:font-bold hover:text-[#5d31ff]">
+										{item.label}
+									</a>
+								)
+							)
+						}
+					</nav>
+
+					<div id="welcome-tip" class="welcome-tip pointer-events-none absolute left-1/2 top-full z-50 pt-3">
+						<p class="whitespace-nowrap rounded-full bg-black/80 px-4 py-2 text-center text-[13px] font-medium text-neutral-200 backdrop-blur">
+							GNB 메뉴에 마우스를 올려 하위 메뉴를 확인해보세요
+						</p>
+					</div>
+				</div>
+
+				<div class="flex items-center gap-[9px]">
+					<div class="group relative">
+						<button type="button" aria-label="알림" class="flex items-center justify-center rounded-[6px] p-[10px]">
+							<img src={`${icons}/bell.svg`} alt="" class="size-[24px]" />
+						</button>
+						<div class="pointer-events-none absolute left-1/2 top-full z-40 -translate-x-1/2 pt-1 opacity-0 transition-opacity duration-150 group-hover:opacity-100">
+							<div class="flex flex-col items-center drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+								<img src={`${icons}/tooltip-arrow.svg`} alt="" class="h-[5px] w-[6.928px]" />
+								<p class="whitespace-nowrap rounded-[8px] bg-[#5d31ff] px-[7px] py-[6px] text-center text-[12px] font-normal leading-none text-white">
+									자료 업데이트 알림서비스 신청
+								</p>
+							</div>
+						</div>
+					</div>
+					<button type="button" aria-label="전체 메뉴" class="flex items-center justify-center rounded-[6px] p-[10px]">
+						<img src={`${icons}/hamburger.svg`} alt="" class="size-[28px]" />
+					</button>
+				</div>
+			</div>
+		</header>
+
+		<!-- 나머지 페이지는 배경 이미지로 처리 (토큰/작업량 최소화), 이미지 자체의 GNB 영역은 위로 가려서 숨김 -->
+		<div class="relative w-full overflow-hidden" style={`height: ${PAGE_H - GNB_H}px`}>
+			<img
+				src={`${base}/gnb-bg.jpg`}
+				width={PAGE_W}
+				height={PAGE_H}
+				alt="화장품 글로벌 규제조화 지원센터 홈페이지 (본문)"
+				class="absolute left-0 block w-full"
+				style={`top: -${GNB_H}px`}
+			/>
+		</div>
+	</div>
+
+	<script>
+		const tip = document.getElementById('welcome-tip');
+		const nav = document.getElementById('gnb-nav');
+
+		if (tip && nav) {
+			const hideTip = () => {
+				tip.style.animation = 'none';
+				tip.style.opacity = '0';
+			};
+
+			nav.addEventListener('mouseenter', hideTip, { once: true });
+		}
+	</script>
+</DeliveryLayout>
