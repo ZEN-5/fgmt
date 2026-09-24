@@ -1,0 +1,1499 @@
+---
+import DeliveryLayout from '../../../layouts/DeliveryLayout.astro';
+
+const base = '/deliveries/helpcosmetic';
+const a = `${base}/main-live2`;
+
+const menu = [
+	{ label: '센터소개', submenu: ['인사말', '서비스 소개', '자료 업데이트 알림 신청'] },
+	{ label: '교육', submenu: ['교육안내', '규제 교육신청', '교육자료실'] },
+	{
+		label: '글로벌 규제정보',
+		submenu: ['국내법령', '해외법령', '세계법제정보센터', '해외동향정보지', '인허가 대행사 및 해외 규정 요약 자료집'],
+	},
+	{ label: '국내외 원료 규제정보', submenu: ['화장품 사용제한 원료', '화장품 국가별 규제정보', '화장품 비교검색'] },
+	{
+		label: '할랄 규제정보',
+		submenu: ['주요 국가 법령 및 가이드 라인', '할랄인증 절차 안내서', '할랄인증 면제 원료 목록', '국내 할랄 인증 원료 목록'],
+	},
+	{ label: '코스봇' },
+	{ label: '정부사업지원' },
+	{ label: 'ICCR', submenu: ['ICCR 개요', '토픽 및 문서'] },
+];
+
+// 비주얼 우측 바로가기 아이콘
+const shortcuts = [
+	{ title: '세계법제정보센터', sub: '국가별 법령 비교', icon: 's1-ic-law.svg' },
+	{ title: '할랄규제정보', sub: '할랄인증 한 눈에', icon: 's1-ic-halal.svg' },
+	{ title: '교육', sub: '규제 교육신청', icon: 's1-ic-edu.svg' },
+	{ title: 'AI코스봇', sub: '언제든 질문해주세요', icon: 's1-ic-bot.svg' },
+];
+
+// 우측 고정 퀵메뉴
+const quickLinks = [
+	{ label: ['해외법령'], icon: 'q-1.svg' },
+	{ label: ['국내외 원료', '규제정보'], icon: 'q-2.svg' },
+	{ label: ['챗봇상담'], icon: 'q-3.svg', white: true },
+	{ label: ['정부지원', '사업안내'], icon: 'q-4.svg' },
+	{ label: ['세계법제', '정보센터'], icon: 'q-5.svg' },
+];
+
+// 섹션2: 해외법령 (샘플 데이터)
+const lawTop = { tag: '시험중인법령', title: '중국NMPA , 「기사용화장품원료목록」 관리 유관 사항에 관한 공고(2026년 4월 13일 업데이트)', date: '2026. 06. 30.' };
+const laws = [
+	{ tag: '시험중인법령', color: '#4e44df', title: '기타 중국식품약품검정연구원, 「염모 화장품 연구 기술 지도원칙(시행)」 등 6개 화장품 기술 지도원칙 발표에 관한 통지 관련 문답', date: '2026. 06. 30.' },
+	{ tag: '시험중인법령', color: '#4e44df', title: '중국NMPA , 「기사용화장품원료목록」 관리 유관 사항에 관한 공고(2026년 4월 13일 업데이트)', date: '2026. 06. 30.' },
+	{ tag: '시험중인법령', color: '#0eaeda', title: '국가약품감독관리국 종합사무국, 「화장품 구순염 판단 기준 및 처리 원칙(의견조회안)」 등 2건의 강제성 국가표준에 대한 의견조회', date: '2026. 06. 30.' },
+];
+
+// 섹션3: 인허가 대행사 및 해외 규정 요약 자료집 (샘플 데이터)
+const resources = [
+	{ cat: '해외 규정 요약 자료집', color: '#4e44df', title: '[대한화장품협회] 2025 ESG 인사이트 리포트(화장품 패키징 규제 통합 가이드)', desc: '[대한화장품협회] 2025 ESG 인사이트 리포트(화장품 패키징 규제 통합 가이드)', date: '2026. 08. 28', img: 's3-img-1.jpg' },
+	{ cat: '해외 규정 요약 자료집', color: '#4e44df', title: '[대한화장품협회] 2025 ESG 인사이트 리포트(과대포장)', desc: '자세한 내용은 첨부파일의 원문 파일을 참고하시기 바랍니다.', date: '2026. 08. 28', img: 's3-img-2.jpg' },
+	{ cat: '인허가', color: '#0eaeda', title: '국가별 화장품 정부기관 안내 (2025년 버전)', desc: '□ 화장품 관련 각국 정부기관 리스트 화장품 관련 국가별 정부기관 목록연번국가정부기관홈페이지1중국중국 국가약품감독관리국(NMPA) https://www.nmpa.gov.cn/', date: '2026. 08. 28' },
+];
+
+// 섹션4: 해외동향정보지 (샘플 데이터)
+const reports = ['2026년 6월', '2026년 5월', '2026년 4월', '2026년 3월'].map((m) => ({
+	title: `<식품의약품안전처> 의료제품분야, 최신 해외 동향 정보지(${m})`,
+	date: '2026.08.28',
+}));
+---
+
+<DeliveryLayout
+	title="Type E 메인 (퍼블리싱) — 화장품 글로벌 규제조화 지원센터 홈페이지 구축"
+	image={`${base}/thumbnailMain2.jpg`}
+	fullBleed
+>
+	<style is:global>
+		@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
+		@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-gov.css');
+		@import url('https://fonts.googleapis.com/css2?family=Allison&display=swap');
+
+		@font-face {
+			font-family: 'Paperlogy';
+			src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-4Regular.woff2') format('woff2');
+			font-weight: 400;
+			font-display: swap;
+		}
+		@font-face {
+			font-family: 'Paperlogy';
+			src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-6SemiBold.woff2') format('woff2');
+			font-weight: 600;
+			font-display: swap;
+		}
+		@font-face {
+			font-family: 'Paperlogy';
+			src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-7Bold.woff2') format('woff2');
+			font-weight: 700;
+			font-display: swap;
+		}
+		@font-face {
+			font-family: 'WavvePADO';
+			src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2404@1.0/WavvePADO-Regular.woff2') format('woff2');
+			font-weight: 400;
+			font-display: swap;
+		}
+
+		html:has(.hc2) {
+			overflow-x: hidden;
+		}
+		.hc2 {
+			--purple: #4e44df;
+			--violet: #5d31ff;
+			--container: min(1420px, calc(100vw - 280px));
+			font-family: 'Pretendard', ui-sans-serif, system-ui, sans-serif;
+			color: #222;
+			background: #fff;
+		}
+		.hc2 button {
+			cursor: pointer;
+		}
+		.hc2 .gov {
+			font-family: 'Pretendard GOV', 'Pretendard', sans-serif;
+		}
+		.hc2 .paper {
+			font-family: 'Paperlogy', 'Pretendard', sans-serif;
+		}
+		.hc2 .container {
+			width: var(--container);
+			margin: 0 auto;
+		}
+		.line-clamp {
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+		}
+
+		/* 시안 목록으로 돌아가기 (시안 전달용 UI) */
+		.hc2-back {
+			position: fixed;
+			left: 24px;
+			bottom: 24px;
+			z-index: 900;
+			border-radius: 999px;
+			background: rgba(0, 0, 0, 0.6);
+			padding: 8px 16px;
+			font-size: 14px;
+			color: #e5e5e5;
+			backdrop-filter: blur(8px);
+		}
+		.hc2-back:hover {
+			background: rgba(0, 0, 0, 0.8);
+		}
+
+		/* ===== Header ===== */
+		.hc2-header {
+			position: relative;
+			z-index: 500;
+			width: 100%;
+			height: 90px;
+			padding: 0 32px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			background: #fff;
+			border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+		}
+		.hc2-header .logo {
+			display: block;
+			width: 171px;
+			height: 42px;
+			flex-shrink: 0;
+		}
+		.hc2-header .logo img {
+			width: 100%;
+			height: 100%;
+		}
+		.hc2-gnb {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			display: flex;
+			align-items: center;
+			gap: 50px;
+			white-space: nowrap;
+		}
+		.hc2-gnb .item {
+			position: relative;
+		}
+		.hc2-gnb .top {
+			display: block;
+			padding: 33px 0;
+			font-size: 20px;
+			font-weight: 600;
+			letter-spacing: -0.4px;
+			color: #333;
+			transition: color 0.2s ease;
+		}
+		.hc2-gnb .item:hover .top {
+			color: var(--purple);
+		}
+		.hc2-gnb .sub {
+			position: absolute;
+			left: 50%;
+			top: 100%;
+			z-index: 40;
+			transform: translateX(-50%);
+			padding-top: 0;
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 0.15s ease;
+		}
+		.hc2-gnb .item:hover .sub {
+			opacity: 1;
+			pointer-events: auto;
+		}
+		.hc2-gnb .sub-box {
+			width: max-content;
+			max-width: 220px;
+			padding: 6px;
+			border: 1px solid #ebebeb;
+			border-radius: 12px;
+			background: #fff;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+		}
+		.hc2-gnb .sub-box a {
+			display: block;
+			padding: 10px 16px;
+			border-radius: 6px;
+			white-space: normal;
+			word-break: keep-all;
+			text-align: center;
+			font-size: 16px;
+			font-weight: 500;
+			color: #444;
+			transition: background 0.15s ease, color 0.15s ease;
+		}
+		.hc2-gnb .sub-box a:hover {
+			background: #f5f4fd;
+			color: var(--purple);
+		}
+		.hc2-util {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			flex-shrink: 0;
+		}
+		.hc2-util .notice {
+			padding: 10px 16px;
+			border-radius: 31px;
+			background: #f9f9f9;
+			font-family: 'Pretendard GOV', 'Pretendard', sans-serif;
+			font-size: 15px;
+			font-weight: 600;
+			line-height: 1.2;
+			color: #404040;
+			white-space: nowrap;
+			transition: background 0.2s ease, color 0.2s ease;
+		}
+		.hc2-util .notice:hover {
+			background: var(--purple);
+			color: #fff;
+		}
+		.hc2-util .menu {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 10px 12px;
+			border-radius: 6px;
+		}
+		.hc2-util .menu img {
+			width: 24px;
+			height: 24px;
+		}
+		/* 좁은 화면에서 GNB가 겹치지 않도록 단계적으로 축소 */
+		@media (max-width: 1760px) {
+			.hc2-gnb {
+				gap: 32px;
+			}
+			.hc2-gnb .top {
+				font-size: 18px;
+			}
+		}
+		@media (max-width: 1500px) {
+			.hc2-util .notice {
+				display: none;
+			}
+			.hc2-gnb {
+				gap: 26px;
+			}
+		}
+
+		/* ===== 우측 고정 퀵메뉴 (흰 캡슐 + 아래 TOP 캡슐) ===== */
+		.hc2-quick {
+			position: fixed;
+			right: 30px;
+			top: 200px;
+			z-index: 500;
+			width: 84px;
+		}
+		.hc2-quick .top-btn {
+			position: absolute;
+			left: 0;
+			/* 흰 캡슐(412px)과 같은 곡률의 윗부분이 안티앨리어싱으로 가장자리에 비치지 않도록
+			   어두운 캡슐은 흰 캡슐 중간부터 시작 — 아래쪽 끝(504px 지점)은 디자인과 동일 */
+			top: 206px;
+			width: 84px;
+			height: 298px;
+			padding-bottom: 28px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: flex-end;
+			gap: 3px;
+			border-radius: 9999px;
+			background: #1f1f21;
+			filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.05));
+			font-size: 14px;
+			font-weight: 500;
+			letter-spacing: -0.14px;
+			color: #fff;
+			transition: background 0.2s ease;
+		}
+		.hc2-quick .top-btn:hover {
+			background: var(--violet);
+		}
+		.hc2-quick .top-btn img {
+			width: 20px;
+			height: 20px;
+		}
+		.hc2-quick nav {
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 16px;
+			padding: 24px 0;
+			border: 1px solid #e8e8e8;
+			border-radius: 9999px;
+			background: #fff;
+		}
+		.hc2-quick nav a {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 4px;
+			font-size: 13px;
+			font-weight: 600;
+			line-height: 1.2;
+			letter-spacing: -0.13px;
+			text-align: center;
+			white-space: nowrap;
+			color: #333;
+			transition: color 0.2s ease;
+		}
+		.hc2-quick nav .circle {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 30px;
+			height: 30px;
+			border-radius: 999px;
+			background: #fff;
+			transition: background 0.2s ease;
+		}
+		.hc2-quick nav .circle img {
+			width: 16px;
+			height: 16px;
+			transition: filter 0.2s ease;
+		}
+		.hc2-quick nav a:hover {
+			font-weight: 700;
+			color: var(--violet);
+		}
+		.hc2-quick nav a:hover .circle {
+			background: var(--violet);
+		}
+		.hc2-quick nav a:hover .circle img {
+			filter: brightness(0) invert(1);
+		}
+		/* 원본이 흰색인 아이콘(챗봇)은 기본 상태에서 다른 아이콘과 같은 진회색으로 */
+		.hc2-quick nav .circle img.is-white {
+			filter: brightness(0) opacity(0.8);
+		}
+		.hc2-quick nav a:hover .circle img.is-white {
+			filter: none;
+		}
+
+		/* ===== Sections (Figma 레이아웃 그대로, 일반 스크롤) ===== */
+		.hc2-section {
+			position: relative;
+			width: 100%;
+		}
+
+		/* 스크롤로 섹션이 화면에 들어올 때(.in-view) 한 번 재생되는 등장 모션 */
+		@keyframes hc2-rise {
+			from {
+				opacity: 0;
+				transform: translateY(30px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+		@keyframes hc2-fade {
+			from {
+				opacity: 0;
+			}
+			to {
+				opacity: 1;
+			}
+		}
+		.hc2 .reveal-line {
+			display: block;
+			opacity: 0;
+		}
+		.hc2 .reveal-fade,
+		.hc2 .reveal-up {
+			opacity: 0;
+		}
+		.hc2 .in-view .reveal-line {
+			animation: hc2-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+		}
+		.hc2 .in-view .reveal-line:nth-child(2) {
+			animation-delay: 0.12s;
+		}
+		.hc2 .in-view .reveal-fade {
+			animation: hc2-fade 0.7s ease-out 0.45s both;
+		}
+		.hc2 .in-view .reveal-up {
+			animation: hc2-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+		}
+		/* 카드 목록 순차 등장 */
+		.hc2 .stagger > * {
+			opacity: 0;
+		}
+		.hc2 .in-view .stagger > * {
+			animation: hc2-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+		}
+		.hc2 .in-view .stagger > :nth-child(1) {
+			animation-delay: 0.3s;
+		}
+		.hc2 .in-view .stagger > :nth-child(2) {
+			animation-delay: 0.4s;
+		}
+		.hc2 .in-view .stagger > :nth-child(3) {
+			animation-delay: 0.5s;
+		}
+		.hc2 .in-view .stagger > :nth-child(4) {
+			animation-delay: 0.6s;
+		}
+
+		/* ---- 공통: 섹션 타이틀 + 더보기 ---- */
+		.sec-head {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+		.sec-head h2 {
+			font-family: 'Paperlogy', 'Pretendard', sans-serif;
+			font-size: 40px;
+			font-weight: 700;
+			line-height: normal;
+			letter-spacing: -0.4px;
+			color: #222;
+			white-space: nowrap;
+		}
+		.more-link {
+			display: inline-flex;
+			align-items: center;
+			gap: 4px;
+			padding: 12px 0;
+			font-family: 'Pretendard GOV', 'Pretendard', sans-serif;
+			font-size: 18px;
+			font-weight: 500;
+			line-height: 1;
+			color: #222;
+			transition: color 0.2s ease;
+		}
+		.more-link img {
+			width: 26.962px;
+			height: 26.962px;
+			transition: transform 0.3s ease, filter 0.2s ease;
+		}
+		.more-link:hover {
+			color: var(--purple);
+		}
+		.more-link:hover img {
+			transform: rotate(90deg);
+			/* #101010 → 보라 */
+			filter: invert(27%) sepia(83%) saturate(3470%) hue-rotate(241deg) brightness(88%) contrast(97%);
+		}
+
+		/* ---- Section 1 : 비주얼 ---- */
+		#hc2-s1 {
+			height: 847px;
+			padding-top: 101px;
+			background: #fff;
+		}
+		.s1-top {
+			position: relative;
+			z-index: 2;
+			display: flex;
+			align-items: flex-start;
+			justify-content: space-between;
+			gap: 40px;
+		}
+
+		.s1-text {
+			position: relative;
+			flex-shrink: 0;
+			width: 693px;
+			display: flex;
+			flex-direction: column;
+			gap: 35px;
+		}
+		.s1-title .eyebrow {
+			margin-left: 6px;
+			font-family: 'Paperlogy', 'Pretendard', sans-serif;
+			font-size: 32px;
+			font-weight: 400;
+			letter-spacing: -0.32px;
+			color: #222;
+			white-space: nowrap;
+		}
+		.s1-title .main {
+			margin-top: 7px;
+			font-family: 'Paperlogy', 'Pretendard', sans-serif;
+			font-size: 54px;
+			font-weight: 700;
+			line-height: 1.2;
+			letter-spacing: -0.54px;
+			color: #222;
+			white-space: nowrap;
+		}
+		.s1-desc {
+			font-size: 16px;
+			font-weight: 600;
+			line-height: 27px;
+			letter-spacing: -0.32px;
+			color: #666;
+		}
+		.s1-script {
+			position: absolute;
+			left: 674.41px;
+			top: 31.08px;
+			width: 182.81px;
+			height: 136.848px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transform: translateX(-50%);
+			pointer-events: none;
+		}
+		.s1-script span {
+			display: block;
+			font-family: 'Allison', cursive;
+			font-size: 77px;
+			line-height: normal;
+			color: var(--purple);
+			white-space: nowrap;
+			transform: rotate(-15deg);
+		}
+		/* 필기체가 써지듯 왼쪽부터 드러남 */
+		.hc2 .s1-script span {
+			clip-path: inset(0 100% 0 0);
+		}
+		.hc2 .in-view .s1-script span {
+			animation: s1-write 1.2s cubic-bezier(0.65, 0, 0.35, 1) 0.7s forwards;
+		}
+		@keyframes s1-write {
+			to {
+				clip-path: inset(0 -10% 0 0);
+			}
+		}
+		.s1-right {
+			flex: 0 1 645px;
+			min-width: 0;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 52px;
+			padding-top: 12px;
+		}
+		.s1-shortcuts {
+			display: flex;
+			width: min(606px, 100%);
+		}
+		.s1-shortcuts a {
+			flex: 1 1 0;
+			min-width: 0;
+			height: 130px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: space-between;
+			text-align: center;
+		}
+		.s1-shortcuts .box {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 69px;
+			height: 69px;
+			border-radius: 24.533px;
+			background: #f9f9f9;
+			transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+		}
+		.s1-shortcuts .box img {
+			width: 34px;
+			height: 34px;
+		}
+		.s1-shortcuts a:hover .box {
+			background: #fff;
+			transform: translateY(-4px);
+			box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+		}
+		.s1-shortcuts .label {
+			display: flex;
+			flex-direction: column;
+			gap: 4px;
+			font-family: 'Pretendard GOV', 'Pretendard', sans-serif;
+			line-height: 1.2;
+		}
+		.s1-shortcuts .label strong {
+			font-size: 19px;
+			font-weight: 700;
+			color: #111;
+			white-space: nowrap;
+		}
+		.s1-shortcuts .label span {
+			font-size: 15px;
+			color: rgba(17, 17, 17, 0.9);
+			white-space: nowrap;
+		}
+		.s1-search {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			width: 100%;
+			height: 114px;
+			padding: 20px 34px 17px;
+			border-radius: 8px;
+			background: rgba(68, 75, 223, 0.72);
+			backdrop-filter: blur(10px);
+			-webkit-backdrop-filter: blur(10px);
+			box-shadow: 0 20px 30px rgba(0, 0, 0, 0.25);
+			transition: background 0.2s ease;
+		}
+		.s1-search:focus-within {
+			background: rgba(68, 75, 223, 0.85);
+		}
+		.s1-search input {
+			flex: 1;
+			min-width: 0;
+			border: 0;
+			outline: none;
+			background: none;
+			font-family: 'Pretendard GOV', 'Pretendard', sans-serif;
+			font-size: 19px;
+			font-weight: 500;
+			line-height: 1.5;
+			letter-spacing: 0.19px;
+			color: #fff;
+		}
+		.s1-search input::placeholder {
+			color: #fff;
+		}
+		.s1-search button {
+			position: relative;
+			width: 30px;
+			height: 30px;
+			flex-shrink: 0;
+			transition: transform 0.2s ease;
+		}
+		.s1-search button:hover {
+			transform: scale(1.1);
+		}
+		.s1-search button img {
+			position: absolute;
+			left: 4.5px;
+			top: 5px;
+			width: 23px;
+			height: 23px;
+			margin: -1.5px;
+		}
+		/* 1700px 미만: 비주얼 텍스트·바로가기를 비례 축소해 겹치지 않게 */
+		@media (max-width: 1700px) {
+			.s1-text {
+				width: 560px;
+			}
+			.s1-title .eyebrow {
+				font-size: 26px;
+			}
+			.s1-title .main {
+				font-size: 44px;
+			}
+			.s1-script {
+				left: 549px;
+				top: 22px;
+			}
+			.s1-script span {
+				font-size: 63px;
+			}
+			.s1-shortcuts .label strong {
+				font-size: 16px;
+			}
+			.s1-shortcuts .label span {
+				font-size: 13px;
+			}
+		}
+		/* 비주얼 영상 밴드: 1920×500, 텍스트 영역 시작점에서 246px 아래 (검색창이 밴드 위로 74px 겹침) */
+		.s1-band {
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: calc(101px + 246px);
+			height: 500px;
+			z-index: 1;
+			overflow: hidden;
+			background: #0a1330;
+		}
+		.s1-band video {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			object-position: center 62%;
+		}
+
+		/* ---- Section 2 : 해외법령 ---- */
+		#hc2-s2 {
+			padding: 90px 0;
+			background: #fff;
+		}
+		.s2-row {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 60px;
+		}
+		.s2-list {
+			flex: 1 1 948px;
+			min-width: 0;
+			max-width: 948px;
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+		}
+		.s2-list .sec-head {
+			height: 47px;
+			padding: 10px;
+			margin-bottom: 20px;
+		}
+		.law-wide {
+			display: flex;
+			align-items: center;
+			gap: 32px;
+			padding: 30px 23.65px;
+			border: 1px solid #ebebeb;
+			border-radius: 12px;
+			background: #fff;
+			transition: border-color 0.25s ease, box-shadow 0.25s ease;
+		}
+		.law-wide:hover {
+			border-color: var(--purple);
+			box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+		}
+		.law-wide .main {
+			flex: 1;
+			min-width: 0;
+			display: flex;
+			align-items: center;
+			gap: 12px;
+		}
+		.law-tag {
+			flex-shrink: 0;
+			font-family: 'Pretendard GOV', 'Pretendard', sans-serif;
+			font-size: 15px;
+			font-weight: 500;
+			line-height: 1.5;
+			white-space: nowrap;
+		}
+		.law-wide .title {
+			flex: 1;
+			min-width: 0;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			font-family: 'Pretendard GOV', 'Pretendard', sans-serif;
+			font-size: 20px;
+			font-weight: 500;
+			line-height: 1.5;
+			letter-spacing: -0.4px;
+			color: #1e1f21;
+		}
+		.law-wide .date {
+			flex-shrink: 0;
+			font-family: 'Pretendard GOV', 'Pretendard', sans-serif;
+			font-size: 17px;
+			line-height: 1.5;
+			color: #666;
+		}
+		.law-cards {
+			display: flex;
+			gap: 12px;
+			height: 206px;
+			padding-top: 6px;
+		}
+		.law-card {
+			flex: 1 1 0;
+			min-width: 0;
+			display: flex;
+			flex-direction: column;
+			gap: 15px;
+			padding: 12px 20px 22px;
+			border-radius: 12px;
+			transition: background 0.25s ease;
+		}
+		.law-card:hover {
+			background: #f5f4fd;
+		}
+		.law-card .head {
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+		}
+		.law-card .title {
+			-webkit-line-clamp: 3;
+			font-family: 'Pretendard GOV', 'Pretendard', sans-serif;
+			font-size: 20px;
+			font-weight: 500;
+			line-height: 1.5;
+			letter-spacing: -0.01em; /* -1% (20px 기준 -0.2px) */
+			color: #1e1f21;
+			transition: color 0.2s ease;
+		}
+		.law-card:hover .title {
+			color: var(--purple);
+		}
+		.law-card .date {
+			font-family: 'Pretendard GOV', 'Pretendard', sans-serif;
+			font-size: 16px;
+			line-height: 1.7;
+			letter-spacing: -0.32px;
+			color: #666;
+		}
+		/* 우측 배너 슬라이더 */
+		.s2-banner {
+			position: relative;
+			flex: 0 0 407px;
+			height: 356.892px;
+			overflow: hidden;
+			border-radius: 16px;
+		}
+		.s2-banner .slide {
+			position: absolute;
+			inset: 0;
+			opacity: 0;
+			transition: opacity 0.6s ease;
+		}
+		.s2-banner .slide.active {
+			opacity: 1;
+		}
+		.s2-banner .slide img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+		.s2-banner .ctrl {
+			position: absolute;
+			left: 50%;
+			bottom: 20px;
+			transform: translateX(-50%);
+			display: flex;
+			align-items: center;
+			height: 32px;
+			padding: 0 6px 0 10px;
+			border: 1px solid #ebebeb;
+			border-radius: 999px;
+			background: #fff;
+		}
+		.s2-banner .count {
+			display: flex;
+			gap: 4px;
+			padding: 0 4px;
+			font-size: 13px;
+			font-weight: 600;
+			color: #999;
+		}
+		.s2-banner .count b {
+			font-weight: 600;
+			color: #000;
+		}
+		.s2-banner .btns {
+			display: flex;
+			gap: 8px;
+		}
+		.s2-banner .btns button {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 20px;
+			height: 20px;
+			border-radius: 40px;
+			transition: background 0.2s ease;
+		}
+		.s2-banner .btns button:hover {
+			background: #f1f2f9;
+		}
+		.s2-banner .btns .prev img {
+			width: 10.685px;
+			height: 6.1425px;
+			transform: rotate(90deg);
+		}
+		.s2-banner .btns .next img {
+			width: 10.685px;
+			height: 6.1425px;
+			transform: rotate(-90deg);
+		}
+		.s2-banner .btns .toggle img {
+			width: 8.267px;
+			height: 9.6px;
+		}
+		.s2-banner .btns .toggle .play {
+			display: none;
+		}
+		.s2-banner.paused .btns .toggle .play {
+			display: block;
+		}
+		.s2-banner.paused .btns .toggle .pause {
+			display: none;
+		}
+
+		/* ---- Section 3 : 인허가 대행사 및 해외 규정 요약 자료집 ---- */
+		#hc2-s3 {
+			padding: 90px 0;
+			background: #f1f2f9;
+		}
+		#hc2-s3 .sec-head {
+			padding-left: 4px;
+			margin-bottom: 24px;
+		}
+		.res-cards {
+			display: flex;
+			align-items: flex-end;
+			gap: 51px;
+		}
+		.res-card {
+			flex: 1 1 0;
+			min-width: 0;
+			display: flex;
+			flex-direction: column;
+		}
+		.res-card .thumb {
+			position: relative;
+			/* 디자인 비율(439×422) 유지 */
+			aspect-ratio: 439 / 422;
+			margin-bottom: -40px;
+			overflow: hidden;
+			background: #e0e2ef;
+		}
+		.res-card .thumb img {
+			width: 100%;
+			height: 104.74%;
+			object-fit: cover;
+			object-position: left top; /* 자료집 표지 텍스트가 왼쪽 정렬이라 오른쪽을 자름 */
+			transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+		}
+		.res-card:hover .thumb img {
+			transform: scale(1.05);
+		}
+		.res-card .thumb .brand {
+			position: absolute;
+			left: calc(50% + 0.31px);
+			top: calc(50% - 20.96px);
+			transform: translate(-50%, -50%);
+			display: flex;
+			align-items: center;
+			gap: 11.61px;
+			transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+		}
+		.res-card:hover .thumb .brand {
+			transform: translate(-50%, -50%) scale(1.05);
+		}
+		.res-card .thumb .brand img {
+			width: 69.564px;
+			height: 62.086px;
+		}
+		.res-card .thumb .brand p {
+			display: flex;
+			flex-direction: column;
+			gap: 3.87px;
+			font-family: 'WavvePADO', 'Pretendard', sans-serif;
+			font-size: 23.22px;
+			letter-spacing: -0.9288px;
+			color: #101010;
+			white-space: nowrap;
+		}
+		.res-card .thumb .brand p span:first-child {
+			line-height: 1;
+		}
+		.res-card .info {
+			position: relative;
+			width: calc(100% - 47px);
+			padding: 16px 16px 16px 12px;
+			background: #f1f2f9;
+		}
+		.res-card .cat {
+			font-family: 'Pretendard GOV', 'Pretendard', sans-serif;
+			font-size: 15px;
+			font-weight: 500;
+			line-height: 1.5;
+		}
+		.res-card .title {
+			-webkit-line-clamp: 2;
+			min-height: 2.7em;
+			margin-top: 8px;
+			font-size: 24px;
+			font-weight: 700;
+			line-height: 1.35;
+			color: #111;
+			transition: color 0.2s ease;
+		}
+		.res-card:hover .title {
+			color: var(--purple);
+		}
+		.res-card .desc {
+			-webkit-line-clamp: 2;
+			height: 48px;
+			margin-top: 27px;
+			font-size: 16px;
+			line-height: 1.5;
+			color: #222;
+		}
+		.res-card .date {
+			margin-top: 10px;
+			font-size: 16px;
+			line-height: 1.65;
+			color: #666;
+		}
+
+		/* ---- Section 4 : 해외동향정보지 ---- */
+		#hc2-s4 {
+			height: 694px;
+			padding-top: 90px;
+			overflow: hidden;
+			background: #fff;
+		}
+		/* 하단 물결 라인 배경 (1920 기준 x -162, 섹션 상단에서 326px, 섹션 하단에서 잘림) */
+		.s4-wave {
+			position: absolute;
+			left: -8.4375%;
+			top: 326px;
+			width: 114.687%;
+			height: auto;
+			max-width: none;
+			opacity: 0.45;
+			pointer-events: none;
+		}
+		#hc2-s4 .container {
+			position: relative;
+		}
+		#hc2-s4 .sec-head {
+			padding: 10px 0;
+			margin-bottom: 31px;
+		}
+		.rep-cards {
+			display: flex;
+			justify-content: space-between;
+			gap: 24px;
+		}
+		.rep-card {
+			--card-bg: linear-gradient(90deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.4) 100%),
+				linear-gradient(149.81deg, rgba(124, 109, 255, 0.2) 22.677%, rgba(175, 173, 215, 0.16) 46.949%, rgba(255, 255, 255, 0) 92.625%);
+			position: relative;
+			flex: 0 1 320px;
+			min-width: 0;
+			height: 352px;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-end;
+			gap: 33px;
+			padding: 32px 39px;
+			border-radius: 4px;
+			background: var(--card-bg);
+			transition: box-shadow 0.35s ease, transform 0.35s ease;
+			isolation: isolate;
+		}
+		/* 호버 시 보라 배경이 부드럽게 채워지도록 별도 레이어로 페이드 */
+		.rep-card::before {
+			content: '';
+			position: absolute;
+			inset: 0;
+			z-index: -1;
+			border-radius: 4px;
+			background: #444bdf;
+			opacity: 0;
+			transition: opacity 0.35s ease;
+		}
+		.rep-card:hover {
+			box-shadow: 0 20px 30px rgba(0, 0, 0, 0.08);
+			transform: translateY(-6px);
+		}
+		.rep-card:hover::before {
+			opacity: 1;
+		}
+		.rep-card .icon {
+			position: relative;
+			width: 120px;
+			height: 120px;
+			flex-shrink: 0;
+			overflow: hidden;
+			border-radius: 120px;
+			background: #e7e7f3;
+			transition: background 0.35s ease;
+		}
+		.rep-card:hover .icon {
+			background: rgba(231, 231, 243, 0.1);
+		}
+		.rep-card .icon .ring {
+			position: absolute;
+			inset: 0;
+			width: 120px;
+			height: 120px;
+		}
+		.rep-card .icon .folder {
+			position: absolute;
+			left: 50%;
+			top: calc(50% + 0.25px);
+			width: 90px;
+			height: 89px;
+			transform: translate(-50%, -50%);
+			transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+		}
+		.rep-card:hover .icon .folder {
+			transform: translate(-50%, -54%) rotate(-6deg);
+		}
+		.rep-card .text {
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+		}
+		.rep-card .title {
+			-webkit-line-clamp: 3;
+			font-family: 'Paperlogy', 'Pretendard', sans-serif;
+			font-size: 21px;
+			font-weight: 600;
+			line-height: 32px;
+			color: #333;
+			transition: color 0.35s ease;
+		}
+		.rep-card .date {
+			font-size: 15px;
+			font-weight: 500;
+			line-height: 1.5;
+			letter-spacing: -0.15px;
+			color: rgba(68, 68, 68, 0.8);
+			transition: color 0.35s ease;
+		}
+		.rep-card:hover .title {
+			color: #fff;
+		}
+		.rep-card:hover .date {
+			color: rgba(255, 255, 255, 0.8);
+		}
+
+		/* ===== Footer ===== */
+		.hc2-footer {
+			position: relative;
+			z-index: 2;
+			background: #222124;
+			font-family: 'Pretendard GOV', 'Pretendard', sans-serif;
+			color: #fff;
+		}
+		.hc2-footer .inner {
+			width: min(1480px, calc(100vw - 80px));
+			margin: 0 auto;
+			padding: 32px 20px 40px;
+			display: flex;
+			flex-direction: column;
+			gap: 24px;
+		}
+		.hc2-footer .info {
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+			font-size: 17px;
+			line-height: 1.5;
+		}
+		.hc2-footer .copy {
+			font-size: 15px;
+			line-height: 1;
+		}
+	</style>
+
+	<div class="hc2">
+		<a href="/delivery/helpcosmetic" class="hc2-back">← 다른 시안 보기</a>
+
+		<!-- Header -->
+		<header class="hc2-header" id="hc2-header">
+			<a href="#" class="logo" data-goto="0"><img src={`${a}/logo.png`} alt="화장품 글로벌 규제조화 지원센터" /></a>
+			<nav class="hc2-gnb">
+				{
+					menu.map((item) => (
+						<div class="item">
+							<a href="#" class="top">
+								{item.label}
+							</a>
+							{item.submenu && (
+								<div class="sub">
+									<div class="sub-box">
+										{item.submenu.map((sub) => (
+											<a href="#">{sub}</a>
+										))}
+									</div>
+								</div>
+							)}
+						</div>
+					))
+				}
+			</nav>
+			<div class="hc2-util">
+				<a href="#" class="notice">자료 업데이트 알림서비스 신청</a>
+				<button type="button" class="menu" aria-label="전체 메뉴"><img src={`${a}/menu.svg`} alt="" /></button>
+			</div>
+		</header>
+
+		<!-- 우측 고정 퀵메뉴 -->
+		<div class="hc2-quick">
+			<button type="button" class="top-btn" id="hc2-top" aria-label="맨 위로">
+				<img src={`${a}/q-top.svg`} alt="" />TOP
+			</button>
+			<nav aria-label="바로가기">
+				{
+					quickLinks.map((q) => (
+						<a href="#">
+							<span class="circle">
+								<img src={`${a}/${q.icon}`} alt="" class={q.white ? 'is-white' : undefined} />
+							</span>
+							<span>
+								{q.label.map((l, i) => (
+									<>
+										{i > 0 && <br />}
+										{l}
+									</>
+								))}
+							</span>
+						</a>
+					))
+				}
+			</nav>
+		</div>
+
+		<main>
+					<!-- Section 1 : 비주얼 -->
+					<section class="hc2-section" id="hc2-s1">
+						<div class="container s1-top">
+							<div class="s1-text">
+								<h1 class="s1-title">
+									<span class="reveal-line eyebrow">지금 바뀌는 전세계 화장품 법령을 확인해보세요</span>
+									<span class="reveal-line main">화장품 글로벌 규제조화 지원센터</span>
+								</h1>
+								<p class="s1-desc reveal-fade">
+									세계 각국의 최신 화장품 법령 정보를 실시간으로 확인하고, 시시각각 변화하는<br />
+									글로벌 규제와 트렌드에 발맞춰 가장 빠르고 정확하게 대응하세요.
+								</p>
+								<div class="s1-script" aria-hidden="true"><span>Cosmetic</span></div>
+							</div>
+							<div class="s1-right">
+								<div class="s1-shortcuts stagger">
+									{
+										shortcuts.map((s) => (
+											<a href="#">
+												<span class="box">
+													<img src={`${a}/${s.icon}`} alt="" />
+												</span>
+												<span class="label">
+													<strong>{s.title}</strong>
+													<span>{s.sub}</span>
+												</span>
+											</a>
+										))
+									}
+								</div>
+								<form class="s1-search reveal-up" role="search" onsubmit="return false;">
+									<input type="search" placeholder="검색어를 입력하세요!" aria-label="검색어" />
+									<button type="submit" aria-label="검색"><img src={`${a}/s1-search.svg`} alt="" /></button>
+								</form>
+							</div>
+						</div>
+						<div class="s1-band">
+							<!-- [보관] Figma 원본 정지 이미지: <img src="/deliveries/helpcosmetic/main-live2/s1-band.jpg" alt="" /> -->
+							<video id="s1-video" autoplay muted loop playsinline preload="auto" poster={`${a}/s1-visual-poster.jpg`} aria-hidden="true">
+								<source src={`${a}/s1-visual.mp4`} type="video/mp4" />
+							</video>
+						</div>
+					</section>
+
+					<!-- Section 2 : 해외법령 -->
+					<section class="hc2-section" id="hc2-s2">
+						<div class="container s2-row">
+							<div class="s2-list">
+								<div>
+									<div class="sec-head">
+										<h2 class="reveal-line">해외법령</h2>
+										<a href="#" class="more-link reveal-fade">더보기<img src={`${a}/plus.svg`} alt="" /></a>
+									</div>
+									<a href="#" class="law-wide reveal-up">
+										<span class="main">
+											<span class="law-tag" style="color:#4e44df">{lawTop.tag}</span>
+											<span class="title">{lawTop.title}</span>
+										</span>
+										<span class="date">{lawTop.date}</span>
+									</a>
+								</div>
+								<div class="law-cards stagger">
+									{
+										laws.map((l) => (
+											<a href="#" class="law-card">
+												<span class="head">
+													<span class="law-tag" style={`color:${l.color}`}>
+														{l.tag}
+													</span>
+													<span class="title line-clamp">{l.title}</span>
+												</span>
+												<span class="date">{l.date}</span>
+											</a>
+										))
+									}
+								</div>
+							</div>
+							<div class="s2-banner reveal-up" id="s2-banner">
+								<a href="#" class="slide active"><img src={`${a}/s2-banner.jpg`} alt="지식재산침해 원스톱 신고상담센터" /></a>
+								<a href="#" class="slide"><img src={`${a}/s2-banner.jpg`} alt="지식재산침해 원스톱 신고상담센터" /></a>
+								<div class="ctrl">
+									<span class="count"><b data-current>1</b>/<span>2</span></span>
+									<div class="btns">
+										<button type="button" class="prev" aria-label="이전 배너"><img src={`${a}/ctl-prev.svg`} alt="" /></button>
+										<button type="button" class="toggle" aria-label="자동재생 정지/재생">
+											<img class="pause" src={`${a}/ctl-pause.svg`} alt="" />
+											<svg class="play" width="8" height="10" viewBox="0 0 8 10" fill="none"><path d="M1 1L7 5L1 9V1Z" fill="#404040" /></svg>
+										</button>
+										<button type="button" class="next" aria-label="다음 배너"><img src={`${a}/ctl-next.svg`} alt="" /></button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<!-- Section 3 : 인허가 대행사 및 해외 규정 요약 자료집 -->
+					<section class="hc2-section" id="hc2-s3">
+						<div class="container">
+							<div class="sec-head">
+								<h2 class="reveal-line">인허가 대행사 및 해외 규정 요약 자료집</h2>
+								<a href="#" class="more-link reveal-fade">더보기<img src={`${a}/plus.svg`} alt="" /></a>
+							</div>
+							<div class="res-cards stagger">
+								{
+									resources.map((r) => (
+										<a href="#" class="res-card">
+											<span class="thumb">
+												{r.img ? (
+													<img src={`${a}/${r.img}`} alt="" />
+												) : (
+													<span class="brand">
+														<img src={`${a}/s3-logo-mark.svg`} alt="" />
+														<p>
+															<span>화장품 글로벌</span>
+															<span>규제조화 지원센터</span>
+														</p>
+													</span>
+												)}
+											</span>
+											<span class="info">
+												<span class="cat gov" style={`color:${r.color}`}>
+													{r.cat}
+												</span>
+												<span class="title line-clamp">{r.title}</span>
+												<span class="desc line-clamp">{r.desc}</span>
+												<span class="date" style="display:block">
+													{r.date}
+												</span>
+											</span>
+										</a>
+									))
+								}
+							</div>
+						</div>
+					</section>
+
+					<!-- Section 4 : 해외동향정보지 -->
+					<section class="hc2-section" id="hc2-s4">
+						<img class="s4-wave" src={`${a}/s4-wave.svg`} alt="" />
+						<div class="container">
+							<div class="sec-head">
+								<h2 class="reveal-line">해외동향정보지</h2>
+								<a href="#" class="more-link reveal-fade">더보기<img src={`${a}/plus.svg`} alt="" /></a>
+							</div>
+							<div class="rep-cards stagger">
+								{
+									reports.map((r) => (
+										<a href="#" class="rep-card">
+											<span class="icon">
+												<img class="ring" src={`${a}/s4-ellipse.svg`} alt="" />
+												<img class="folder" src={`${a}/s4-folder.png`} alt="" />
+											</span>
+											<span class="text">
+												<span class="title line-clamp">{r.title}</span>
+												<span class="date">{r.date}</span>
+											</span>
+										</a>
+									))
+								}
+							</div>
+						</div>
+					</section>
+		</main>
+
+		<footer class="hc2-footer">
+			<div class="inner">
+				<div class="info">
+					<p>충북 청주시 흥덕구 오송읍 오송생명2로 187 식품의약품안전처</p>
+					<p>TEL: 070-8709-8614 | FAX : 02-782-6659 | E-MAIL : a007@kcia.or.kr</p>
+				</div>
+				<p class="copy">© COPYRIGHT MINISTRY OF FOOD AND DRUG SAFETY. All rights reserved.</p>
+			</div>
+		</footer>
+	</div>
+
+	<script>
+		/* ============================================================
+		 * 1) 스크롤 등장 모션 — 섹션이 화면에 들어오면 .in-view 를 한 번 붙임
+		 * ============================================================ */
+		const sections = Array.from(document.querySelectorAll<HTMLElement>('.hc2-section'));
+		const io = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (!entry.isIntersecting) return;
+					entry.target.classList.add('in-view');
+					io.unobserve(entry.target);
+				});
+			},
+			{ threshold: 0.2 }
+		);
+		sections.forEach((s) => io.observe(s));
+
+		// 로고 · 퀵메뉴 TOP → 맨 위로 부드럽게 스크롤
+		const toTop = (e: Event) => {
+			e.preventDefault();
+			window.scrollTo({ top: 0, behavior: 'smooth' });
+		};
+		document.querySelector('[data-goto="0"]')?.addEventListener('click', toTop);
+		document.getElementById('hc2-top')?.addEventListener('click', toTop);
+
+		// 비주얼 영상 · 배너 자동재생은 화면에 보일 때만
+		const visible = new Map<Element, boolean>();
+		const vio = new IntersectionObserver((entries) => {
+			entries.forEach((entry) => {
+				visible.set(entry.target, entry.isIntersecting);
+				entry.target.dispatchEvent(new CustomEvent('hc2:visible', { detail: entry.isIntersecting }));
+			});
+		});
+		{
+			const video = document.getElementById('s1-video') as HTMLVideoElement;
+			const band = video.parentElement!;
+			vio.observe(band);
+			band.addEventListener('hc2:visible', (e) => {
+				if ((e as CustomEvent<boolean>).detail) video.play().catch(() => {});
+				else video.pause();
+			});
+		}
+
+		/* ============================================================
+		 * 2) 섹션2 우측 배너 슬라이더 (페이드, 자동재생/일시정지)
+		 * ============================================================ */
+		{
+			const root = document.getElementById('s2-banner')!;
+			const slides = Array.from(root.querySelectorAll<HTMLElement>('.slide'));
+			const currentNum = root.querySelector<HTMLElement>('[data-current]')!;
+			const INTERVAL = 4000;
+			let idx = 0;
+			let timer: number | undefined;
+			let paused = false;
+
+			function go(i: number) {
+				idx = (i + slides.length) % slides.length;
+				slides.forEach((s, n) => s.classList.toggle('active', n === idx));
+				currentNum.textContent = String(idx + 1);
+				restart();
+			}
+			function restart() {
+				clearInterval(timer);
+				if (!paused && visible.get(root)) timer = window.setInterval(() => go(idx + 1), INTERVAL);
+			}
+			root.querySelector('.prev')!.addEventListener('click', () => go(idx - 1));
+			root.querySelector('.next')!.addEventListener('click', () => go(idx + 1));
+			root.querySelector('.toggle')!.addEventListener('click', () => {
+				paused = !paused;
+				root.classList.toggle('paused', paused);
+				restart();
+			});
+			vio.observe(root);
+			root.addEventListener('hc2:visible', restart);
+		}
+	</script>
+</DeliveryLayout>

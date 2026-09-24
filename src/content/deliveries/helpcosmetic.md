@@ -38,6 +38,12 @@ drafts:
     href: "/delivery/helpcosmetic/main-live1"
     images:
       - "/deliveries/helpcosmetic/thumbnailMain1.jpg"
+  - slug: "main2"
+    label: "Type E - 메인 퍼블리싱"
+    thumbnail: "/deliveries/helpcosmetic/thumbnailMain2.jpg"
+    href: "/delivery/helpcosmetic/main-live2"
+    images:
+      - "/deliveries/helpcosmetic/thumbnailMain2.jpg"
   - slug: "e"
     label: "콘텐츠 서브레이아웃"
     section: "서브레이아웃/GNB"
