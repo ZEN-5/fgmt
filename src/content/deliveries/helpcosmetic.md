@@ -32,6 +32,12 @@ drafts:
       - "/deliveries/helpcosmetic/D_info.jpg"
       - "/deliveries/helpcosmetic/D1.jpg"
       - "/deliveries/helpcosmetic/D2.jpg"
+  - slug: "main1"
+    label: "Type D - 메인 퍼블리싱"
+    thumbnail: "/deliveries/helpcosmetic/thumbnailMain1.jpg"
+    href: "/delivery/helpcosmetic/main-live1"
+    images:
+      - "/deliveries/helpcosmetic/thumbnailMain1.jpg"
   - slug: "e"
     label: "콘텐츠 서브레이아웃"
     section: "서브레이아웃/GNB"

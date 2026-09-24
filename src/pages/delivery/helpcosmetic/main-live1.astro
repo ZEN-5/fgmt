@@ -1,0 +1,2157 @@
+---
+import DeliveryLayout from '../../../layouts/DeliveryLayout.astro';
+
+const base = '/deliveries/helpcosmetic';
+const a = `${base}/main-live1`;
+
+const menu = [
+	{ label: '센터소개', submenu: ['인사말', '서비스 소개', '자료 업데이트 알림 신청'] },
+	{ label: '교육', submenu: ['교육안내', '규제 교육신청', '교육자료실'] },
+	{
+		label: '글로벌 규제정보',
+		submenu: ['국내법령', '해외법령', '세계법제정보센터', '해외동향정보지', '인허가 대행사 및 해외 규정 요약 자료집'],
+	},
+	{ label: '국내외 원료 규제정보', submenu: ['화장품 사용제한 원료', '화장품 국가별 규제정보', '화장품 비교검색'] },
+	{
+		label: '할랄 규제정보',
+		submenu: ['주요 국가 법령 및 가이드 라인', '할랄인증 절차 안내서', '할랄인증 면제 원료 목록', '국내 할랄 인증 원료 목록'],
+	},
+	{ label: '코스봇' },
+	{ label: '정부사업지원' },
+	{ label: 'ICCR', submenu: ['ICCR 개요', '토픽 및 문서'] },
+];
+
+const quickLinks = [
+	{ label: ['해외법령'], icon: 'quick-1.svg', w: 18, h: 18 },
+	{ label: ['국내외 원료', '규제정보'], icon: 'quick-2.svg', w: 14, h: 14 },
+	{ label: ['챗봇상담'], icon: 'quick-3.svg', w: 15.36, h: 12.93 },
+	{ label: ['정부지원', '사업안내'], icon: 'quick-4.svg', w: 14.04, h: 13.72 },
+	{ label: ['세계법제', '정보센터'], icon: 'quick-5.svg', w: 18, h: 18 },
+];
+
+const keywords = ['#TBT통보문', '#할랄인증절차', '#AI코스봇', '#TBT통보문', '#해외동향', '#ICCR'];
+
+// 섹션2: 해외 법령 카드 (샘플 데이터)
+const laws = [
+	{ tag: '시행중인법령', color: '#3c55fa', title: '중국NMPA , 「기사용화장품원료목록」 관리 유관 사항에 관한 공고(2026년 4월 13일 업데이트)', date: '2026.09.24' },
+	{ tag: '시행중인법령', color: '#3c55fa', title: '기타 중국식품약품검정연구원, 「염모 화장품 연구 기술 지도원칙(시행)」 등 6개 화장품 기술 지도원칙 발표에 관한 통지 관련 문답', date: '2026.09.24' },
+	{ tag: '입법/행정예고', color: '#00c395', title: '국가약품감독관리국 종합사무국, 「화장품 구순염 판단 기준 및 처리 원칙(의견조회안)」 등 2건의 강제성 국가표준에 대한 의견조회', date: '2026.09.24' },
+	{ tag: '시행중인법령', color: '#3c55fa', title: '중국NMPA , 「기사용화장품원료목록」 관리 유관 사항에 관한 공고(2026년 4월 13일 업데이트)', date: '2026.09.24' },
+	{ tag: '입법/행정예고', color: '#00c395', title: '유럽연합 집행위원회, 화장품 규정(EC) No 1223/2009 부속서 개정안에 대한 의견수렴', date: '2026.09.20' },
+	{ tag: '시행중인법령', color: '#3c55fa', title: '미국 FDA, 화장품 규제 현대화법(MoCRA) 시설 등록 및 제품 목록 제출 안내', date: '2026.09.18' },
+];
+
+// 섹션3: 인허가 대행사 / 해외 규정 요약 자료집 (샘플 데이터)
+const resources = [
+	{ cat: '해외 규정 요약 자료집', title: '[대한화장품협회] 2025 ESG 인사이트 리포트(화장품 패키징 규제 통합 가이드)', date: '2026.09.13', img: 's3-card-1.jpg' },
+	{ cat: '인허가 대행사 명단', title: '(아세안(브루나이, 캄보디아, 인도네시아, 라오스, 말레이시아, 미얀마, 필리핀, 싱가포르, 태국, 베트남)) 화장품 인허가 대행기관(2025년 개정)', date: '2026.09.13' },
+	{ cat: '해외 규정 요약 자료집', title: '[대한화장품협회] 2025 ESG 인사이트 리포트(과대포장)', date: '2026.09.13', img: 's3-card-2.jpg' },
+	{ cat: '인허가 대행사 명단', title: '(호주) 화장품 인허가 대행기관(2025년 개정)', date: '2026.09.13' },
+	{ cat: '인허가 대행사 명단', title: '(아세안(브루나이, 캄보디아, 인도네시아, 라오스, 말레이시아, 미얀마, 필리핀, 싱가포르, 태국, 베트남)) 화장품 인허가 대행기관(2025년 개정)', date: '2026.09.13' },
+	{ cat: '해외 규정 요약 자료집', title: '[대한화장품협회] 2025 ESG 인사이트 리포트(화장품 패키징 규제 통합 가이드)', date: '2026.09.13', img: 's3-card-1.jpg' },
+];
+
+// 섹션4: 해외 동향 정보지 (샘플 데이터)
+const reports = [
+	{ title: '<식품의약품안전처> 의료제품분야, 최신 해외 동향 정보지(2026년 6월)', date: '2026.08.22', cover: 's4-book-1.png' },
+	{ title: '<식품의약품안전처> 의료제품분야, 최신 해외 동향 정보지(2026년 4월)', date: '2026.08.22', cover: 's4-book-3.png' },
+	{ title: '<식품의약품안전처> 의료제품분야, 최신 해외 동향 정보지(2026년 5월)', date: '2026.08.22', cover: 's4-book-1.png' },
+	{ title: '<식품의약품안전처> 의료제품분야, 최신 해외 동향 정보지(2026년 3월)', date: '2026.08.22', cover: 's4-book-2.png' },
+	{ title: '<식품의약품안전처> 의료제품분야, 최신 해외 동향 정보지(2026년 2월)', date: '2026.08.22', cover: 's4-book-3.png' },
+	{ title: '<식품의약품안전처> 의료제품분야, 최신 해외 동향 정보지(2026년 1월)', date: '2026.08.22', cover: 's4-book-2.png' },
+];
+
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+
+<DeliveryLayout
+	title="Type D 메인 (퍼블리싱) — 화장품 글로벌 규제조화 지원센터 홈페이지 구축"
+	image={`${base}/thumbnailMain1.jpg`}
+	fullBleed
+>
+	<style is:global>
+		@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
+		@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-gov.css');
+
+		@font-face {
+			font-family: 'GmarketSans';
+			src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+			font-weight: 500;
+			font-display: swap;
+		}
+		@font-face {
+			font-family: 'GmarketSans';
+			src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff');
+			font-weight: 700;
+			font-display: swap;
+		}
+		@font-face {
+			font-family: 'WavvePADO';
+			src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2404@1.0/WavvePADO-Regular.woff2') format('woff2');
+			font-weight: 400;
+			font-display: swap;
+		}
+
+		html:has(.hc) {
+			overflow-x: hidden;
+		}
+		.hc {
+			--purple: #4e44df;
+			--container: min(1480px, calc(100vw - 280px));
+			font-family: 'Pretendard', ui-sans-serif, system-ui, sans-serif;
+			color: #101010;
+			background: #fff;
+		}
+		.hc button {
+			cursor: pointer;
+		}
+		.hc .gov {
+			font-family: 'Pretendard GOV', 'Pretendard', sans-serif;
+		}
+		.hc .container {
+			width: var(--container);
+			margin: 0 auto;
+		}
+
+		/* 시안 목록으로 돌아가기 (시안 전달용 UI) */
+		.hc-back {
+			position: fixed;
+			left: 24px;
+			bottom: 24px;
+			z-index: 900;
+			border-radius: 999px;
+			background: rgba(0, 0, 0, 0.6);
+			padding: 8px 16px;
+			font-size: 14px;
+			color: #e5e5e5;
+			backdrop-filter: blur(8px);
+		}
+		.hc-back:hover {
+			background: rgba(0, 0, 0, 0.8);
+		}
+
+		/* ===== Header (fixed, 섹션 테마에 따라 색상 전환) ===== */
+		.hc-header {
+			position: fixed;
+			top: 0;
+			left: 0;
+			z-index: 500;
+			width: 100%;
+			height: 90px;
+			padding: 0 42px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			transition: color 0.4s ease;
+		}
+		.hc-header.theme-dark {
+			color: #fff;
+		}
+		.hc-header.theme-light {
+			color: #101010;
+		}
+		/* 로고 (photo/logo.png): 어두운 섹션은 흰 글자 버전, 흰 섹션은 글자만 어둡게 바꾼 버전 */
+		.hc-header .logo {
+			position: relative;
+			display: block;
+			width: 171px;
+			height: 42px;
+		}
+		.hc-header .logo img {
+			position: absolute;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+		}
+
+		.hc-gnb {
+			position: absolute;
+			left: calc(50% - 0.5px);
+			top: calc(50% - 0.5px);
+			transform: translate(-50%, -50%);
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			padding: 4px;
+			white-space: nowrap;
+		}
+		.hc-gnb .item {
+			position: relative;
+		}
+		.hc-gnb .top {
+			display: inline-flex;
+			flex-direction: column;
+			align-items: center;
+			padding: 6px 16px;
+			border-radius: 99px;
+			font-size: 20px;
+			line-height: 1.5;
+			font-weight: 500;
+			color: inherit;
+			transition: background 0.2s ease;
+		}
+		/* 굵기 변화로 메뉴 폭이 흔들리지 않도록 SemiBold 폭을 미리 확보 */
+		.hc-gnb .top::after {
+			content: attr(data-label);
+			height: 0;
+			overflow: hidden;
+			visibility: hidden;
+			font-weight: 600;
+		}
+		.hc-gnb .item:hover .top {
+			font-weight: 600;
+		}
+		.theme-dark .hc-gnb .item:hover .top {
+			background: rgba(255, 255, 255, 0.12);
+		}
+		.theme-light .hc-gnb .item:hover .top {
+			background: rgba(16, 16, 16, 0.05);
+		}
+		.hc-gnb .sub {
+			position: absolute;
+			left: 50%;
+			top: 100%;
+			z-index: 40;
+			transform: translateX(-50%);
+			padding-top: 10px;
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 0.15s ease;
+		}
+		.hc-gnb .item:hover .sub {
+			opacity: 1;
+			pointer-events: auto;
+		}
+		.hc-gnb .sub-box {
+			width: max-content;
+			max-width: 200px;
+			padding: 6px;
+			border: 1px solid #ebebeb;
+			border-radius: 12px;
+			background: #fff;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+		}
+		.hc-gnb .sub-box a {
+			display: block;
+			padding: 10px 16px;
+			border-radius: 6px;
+			white-space: normal;
+			word-break: keep-all;
+			text-align: center;
+			font-size: 15px;
+			font-weight: 500;
+			color: #444;
+			transition: background 0.15s ease, color 0.15s ease;
+		}
+		.hc-gnb .sub-box a:hover {
+			background: #f5f4fd;
+			color: var(--purple);
+		}
+
+		.hc-util {
+			display: flex;
+			align-items: center;
+			gap: 9px;
+		}
+		.hc-util button {
+			position: relative;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 10px;
+			border-radius: 6px;
+		}
+		.hc-util .icon {
+			position: relative;
+			width: 28px;
+			height: 28px;
+		}
+		.hc-util .icon img {
+			position: absolute;
+			display: block;
+		}
+		.hc-util .bell img {
+			left: calc(50% + 0.21px);
+			top: calc(50% + 0.1px);
+			width: 24px;
+			height: 24px;
+			transform: translate(-50%, -50%);
+		}
+		.hc-util .menu img {
+			inset: 0;
+			width: 28px;
+			height: 28px;
+		}
+		.hc-header .on-dark,
+		.hc-header .on-light {
+			transition: opacity 0.4s ease;
+		}
+		.hc-header.theme-dark .on-light,
+		.hc-header.theme-light .on-dark {
+			opacity: 0;
+		}
+		.hc-util .tip {
+			position: absolute;
+			left: 50%;
+			top: 100%;
+			transform: translateX(-50%);
+			padding-top: 2px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 0.15s ease;
+			filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.15));
+		}
+		.hc-util button:hover .tip {
+			opacity: 1;
+		}
+		.hc-util .tip span:first-child {
+			width: 0;
+			height: 0;
+			border-left: 3.5px solid transparent;
+			border-right: 3.5px solid transparent;
+			border-bottom: 6px solid var(--purple);
+		}
+		.hc-util .tip span:last-child {
+			white-space: nowrap;
+			border-radius: 8px;
+			background: var(--purple);
+			padding: 6px 7px;
+			font-size: 12px;
+			line-height: 1;
+			color: #fff;
+		}
+
+		/* ===== left-navi ===== */
+		.hc-navi {
+			position: fixed;
+			left: 46px;
+			top: 50%;
+			z-index: 500;
+			transform: translateY(-50%);
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+		}
+		.hc-navi button {
+			display: block;
+			width: 45px;
+			padding: 4px 0;
+		}
+		.hc-navi button span {
+			display: block;
+			height: 2px;
+			background: #fff;
+			opacity: 0.2;
+			transition: opacity 0.35s ease, background 0.35s ease;
+		}
+		.hc-navi.theme-light button span {
+			background: #000;
+		}
+		.hc-navi button.active span {
+			opacity: 1;
+		}
+		.hc-navi.theme-light button.active span {
+			background: var(--purple);
+		}
+
+		/* ===== Parallax (gunsu1 방식: 고정 트랙 + 휠 1회 = 1섹션) ===== */
+		.hc-spacer {
+			position: relative;
+			height: 400vh;
+		}
+		.hc-fixed {
+			position: fixed;
+			top: 0;
+			left: 0;
+			z-index: 1;
+			width: 100%;
+			height: 100vh;
+			overflow: hidden;
+		}
+		.hc-fixed.is-free {
+			position: absolute;
+			top: auto;
+			bottom: 0;
+		}
+		.hc-track {
+			width: 100%;
+			height: 400vh;
+			transition: transform 0.85s cubic-bezier(0.65, 0, 0.35, 1);
+			will-change: transform;
+		}
+		.hc-section {
+			position: relative;
+			width: 100%;
+			height: 100vh;
+			overflow: hidden;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		}
+
+		/* 섹션 진입(.in-view) 시 재생되는 등장 모션 */
+		@keyframes hc-rise {
+			from {
+				opacity: 0;
+				transform: translateY(30px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+		@keyframes hc-fade {
+			from {
+				opacity: 0;
+			}
+			to {
+				opacity: 1;
+			}
+		}
+		.hc .reveal-line {
+			display: block;
+			opacity: 0;
+		}
+		.hc .reveal-fade,
+		.hc .reveal-up {
+			opacity: 0;
+		}
+		.hc .in-view .reveal-line {
+			animation: hc-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+		}
+		.hc .in-view .reveal-line:nth-child(2) {
+			animation-delay: 0.12s;
+		}
+		.hc .in-view .reveal-line:nth-child(3) {
+			animation-delay: 0.24s;
+		}
+		.hc .in-view .reveal-fade {
+			animation: hc-fade 0.7s ease-out 0.45s forwards;
+		}
+		.hc .in-view .reveal-up {
+			animation: hc-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.35s forwards;
+		}
+
+		/* ---- Section 1 : Hero ---- */
+		#hc-s1 {
+			background: #0a1224;
+			color: #fff;
+		}
+		.s1-bg {
+			position: absolute;
+			inset: 0;
+			overflow: hidden;
+		}
+		/* [보관] 지구 배경 이미지 + 켄번즈 — 다시 쓸 때 마크업의 주석과 함께 해제
+		.s1-bg img {
+			position: absolute;
+			left: 0;
+			top: -8.86%;
+			width: 100%;
+			height: 108.89%;
+			max-width: none;
+			object-fit: cover;
+			transform-origin: 62% 70%;
+			animation: s1-kenburns 18s ease-in-out infinite alternate;
+			will-change: transform;
+		}
+		@keyframes s1-kenburns {
+			from { transform: scale(1); }
+			to { transform: scale(1.1); }
+		}
+		@media (prefers-reduced-motion: reduce) {
+			.s1-bg img { animation: none; }
+		}
+		이미지 사용 시 오버레이는 이전 값: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 40.55%), rgba(0,0,0,0.24)
+		*/
+		/* 배경 영상 (원본 4K ProRes → 1920px H.264 MP4, 무음 루프) */
+		.s1-bg video {
+			position: absolute;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+		/* 밝은 실사 영상 위에서도 흰 타이틀이 읽히도록 오버레이를 이미지 때보다 진하게 */
+		.s1-bg::after {
+			content: '';
+			position: absolute;
+			inset: 0;
+			background: linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0) 40.55%),
+				rgba(10, 18, 36, 0.5);
+		}
+		.s1-title {
+			position: absolute;
+			left: 0;
+			top: calc(36.1% + 50px);
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 8px;
+			font-size: 54px;
+			font-weight: 800;
+			line-height: 1.3;
+			letter-spacing: -0.54px;
+			text-align: center;
+			text-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+			white-space: nowrap;
+		}
+		/* 타이틀 2줄 세트 교체 반복: 세트 등장(줄별 순차) → 몇 초 유지 → 2줄 함께 사라짐 → 다음 세트 등장 */
+		.hc .s1-title {
+			display: grid;
+			justify-items: center;
+		}
+		.s1-title .title-set {
+			grid-area: 1 / 1;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 8px;
+		}
+		.s1-title .t-line {
+			display: block;
+			opacity: 0;
+		}
+		.s1-title .title-set.is-in .t-line {
+			animation: hc-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+		}
+		.s1-title .title-set.is-in .t-line:nth-child(2) {
+			animation-delay: 0.18s;
+		}
+		.s1-title .title-set.is-out .t-line {
+			/* both: 지연(delay) 동안에도 시작 상태(opacity 1)를 유지해 깜빡임 방지 */
+			animation: s1-title-out 0.6s cubic-bezier(0.7, 0, 0.84, 0) both;
+		}
+		.s1-title .title-set.is-out .t-line:nth-child(2) {
+			animation-delay: 0.08s;
+		}
+		@keyframes s1-title-out {
+			from {
+				opacity: 1;
+				transform: translateY(0);
+			}
+			to {
+				opacity: 0;
+				transform: translateY(-30px);
+			}
+		}
+		.s1-search-area {
+			position: absolute;
+			left: 0;
+			right: 0;
+			bottom: 70px;
+			margin: 0 auto;
+			display: flex;
+			flex-direction: column;
+			gap: 18px;
+			width: 700px;
+		}
+		.s1-search {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			height: 70px;
+			padding: 9px 12px 9px 32px;
+
+			/* 유리판: 반사광 느낌의 그라데이션 */
+			background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.08) 100%);
+
+			/* 핵심: 블러 강화 + 채도 */
+			backdrop-filter: blur(20px) saturate(180%);
+			-webkit-backdrop-filter: blur(20px) saturate(180%);
+
+			/* 얇은 가장자리, 윗면은 더 밝게 */
+			border: 1px solid rgba(255, 255, 255, 0.35);
+			border-top-color: rgba(255, 255, 255, 0.6);
+			border-radius: 999px;
+
+			/* 입체감: 바깥 그림자 + 안쪽 하이라이트/음영 */
+			box-shadow:
+				0 8px 32px rgba(0, 0, 0, 0.18),
+				inset 0 1px 1px rgba(255, 255, 255, 0.5),
+				inset 0 -1px 1px rgba(0, 0, 0, 0.08);
+
+			transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+		}
+		.s1-search:focus-within {
+			background: linear-gradient(135deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.12) 100%);
+			border-color: rgba(255, 255, 255, 0.5);
+			border-top-color: rgba(255, 255, 255, 0.75);
+			box-shadow:
+				0 8px 32px rgba(0, 0, 0, 0.22),
+				inset 0 1px 1px rgba(255, 255, 255, 0.6),
+				inset 0 -1px 1px rgba(0, 0, 0, 0.08);
+		}
+		.s1-search input {
+			flex: 1;
+			min-width: 0;
+			background: none;
+			border: 0;
+			outline: none;
+			font-size: 18px;
+			font-weight: 500;
+			line-height: 1.55;
+			letter-spacing: -0.18px;
+			color: #fff;
+		}
+		.s1-search input::placeholder {
+			color: #fff;
+		}
+		.s1-search button {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 100%;
+			aspect-ratio: 1;
+			border-radius: 999px;
+			transition: background 0.2s ease;
+		}
+		.s1-search button:hover {
+			background: rgba(255, 255, 255, 0.12);
+		}
+		.s1-search button img {
+			width: 20px;
+			height: 20px;
+		}
+		.s1-keywords {
+			display: flex;
+			align-items: center;
+			gap: 30px;
+			padding: 0 56px;
+			font-size: 15px;
+			line-height: 1.55;
+			white-space: nowrap;
+		}
+		.s1-keywords strong {
+			font-weight: 700;
+		}
+		.s1-keywords div {
+			display: flex;
+			flex: 1;
+			gap: 16px;
+			overflow: hidden;
+		}
+		.s1-keywords a {
+			color: #fff;
+			transition: opacity 0.2s ease;
+		}
+		.s1-keywords a:hover {
+			opacity: 0.7;
+			text-decoration: underline;
+			text-underline-offset: 3px;
+		}
+		/* 퀵메뉴 · 챗봇: 모든 섹션에서 fixed, 섹션 테마(dark/light)에 따라 변수로 색 전환 */
+		.hc-quick {
+			--q-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.08) 100%);
+			--q-border: rgba(255, 255, 255, 0.35);
+			--q-border-top: rgba(255, 255, 255, 0.6);
+			--q-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+			--q-highlight: rgba(255, 255, 255, 0.5);
+			--q-text: #fff;
+			--q-circle: rgba(246, 247, 249, 0.08);
+			--q-icon: none;
+			position: fixed;
+			z-index: 500;
+			right: 0;
+			top: 50%;
+			transform: translateY(-50%);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 24px;
+			width: 90px;
+			padding: 20px 0;
+
+			/* 검색창과 동일한 글래스 효과 (화면 오른쪽에 붙어 있어 오른쪽 테두리는 없음) */
+			background: var(--q-bg);
+			backdrop-filter: blur(20px) saturate(180%);
+			-webkit-backdrop-filter: blur(20px) saturate(180%);
+			border: 1px solid var(--q-border);
+			border-top-color: var(--q-border-top);
+			border-right: 0;
+			border-radius: 20px 0 0 20px;
+			box-shadow:
+				var(--q-shadow),
+				inset 0 1px 1px var(--q-highlight),
+				inset 0 -1px 1px rgba(0, 0, 0, 0.08);
+			transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+		}
+		/* 흰 배경 섹션용 */
+		.hc-quick.theme-light {
+			--q-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.55) 100%);
+			--q-border: rgba(0, 0, 0, 0.06);
+			--q-border-top: rgba(255, 255, 255, 0.9);
+			--q-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+			--q-highlight: rgba(255, 255, 255, 0.9);
+			--q-text: #222;
+			--q-circle: rgba(0, 0, 0, 0.05);
+			--q-icon: brightness(0) opacity(0.8);
+		}
+		.hc-quick img {
+			filter: var(--q-icon);
+			transition: filter 0.2s ease;
+		}
+		.hc-quick a:hover img {
+			filter: none;
+		}
+		.hc-quick a {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 4px;
+			font-size: 12px;
+			font-weight: 500;
+			line-height: 1.2;
+			letter-spacing: -0.12px;
+			text-align: center;
+			white-space: nowrap;
+			color: var(--q-text);
+			transition: color 0.4s ease;
+		}
+		.hc-quick .circle {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 40px;
+			height: 40px;
+			border-radius: 999px;
+			background: var(--q-circle);
+			transition: background 0.2s ease;
+		}
+		.hc-quick a:hover .circle {
+			background: var(--purple);
+		}
+		.hc-chatbot {
+			position: fixed;
+			z-index: 500;
+			display: block;
+			right: 14px;
+			bottom: 30px;
+			width: 62px;
+			height: 62px;
+			transition: transform 0.2s ease;
+		}
+		.hc-chatbot:hover {
+			transform: translateY(-3px);
+		}
+		.hc-chatbot .circle {
+			position: relative;
+			display: block;
+			width: 62px;
+			height: 62px;
+			overflow: hidden;
+			border-radius: 999px;
+			background: var(--purple);
+			box-shadow: 0 0 20px rgba(84, 70, 204, 0.08);
+		}
+		.hc-chatbot .robot {
+			position: absolute;
+			left: 50%;
+			top: calc(50% + 9.5px);
+			width: 54px;
+			height: 63px;
+			overflow: hidden;
+			transform: translate(-50%, -50%);
+		}
+		.hc-chatbot .robot img {
+			position: absolute;
+			left: -21.15%;
+			top: -50%;
+			width: 215.97%;
+			height: 200%;
+			max-width: none;
+		}
+		.hc-chatbot .badge {
+			position: absolute;
+			right: 0;
+			top: 1px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 20px;
+			height: 13px;
+			border-radius: 6px;
+			background: #00c395;
+			font-family: 'Pretendard GOV', 'Pretendard', sans-serif;
+			font-size: 9px;
+			font-weight: 700;
+			letter-spacing: -0.18px;
+			color: #fff;
+		}
+
+		/* ---- Section 2 : 해외 법령 ---- */
+		#hc-s2 {
+			background: #fff;
+		}
+		.s2-grid {
+			position: absolute;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+			pointer-events: none;
+		}
+		.s2-body {
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			gap: 43px;
+		}
+		.s2-head {
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			gap: 21px;
+		}
+		.s2-title {
+			font-size: 60px;
+			font-weight: 700;
+			line-height: 1.3;
+			letter-spacing: -0.6px;
+			color: #000;
+			white-space: nowrap;
+		}
+		.s2-title .reveal-line:first-child {
+			color: var(--purple);
+		}
+		.s2-desc {
+			padding: 0 8px;
+			font-size: 21px;
+			line-height: 1.2;
+			letter-spacing: -0.21px;
+			color: rgba(0, 0, 0, 0.8);
+		}
+		.s2-globe {
+			position: absolute;
+			right: 0;
+			top: 7.5px;
+			width: 244px;
+			height: 196px;
+			opacity: 0;
+		}
+		/* 타이틀 2줄 등장(~1.0s)이 끝난 뒤 떠오르며 등장 → 이후 둥실 떠 있는 모션 */
+		.in-view .s2-globe {
+			animation: s2-globe-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) 1s forwards, s2-float 5s ease-in-out 1.9s infinite;
+		}
+		@keyframes s2-globe-in {
+			from {
+				opacity: 0;
+				transform: translateY(30px) scale(0.9);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0) scale(1);
+			}
+		}
+		@keyframes s2-float {
+			0%,
+			100% {
+				transform: translateY(0);
+			}
+			50% {
+				transform: translateY(-10px);
+			}
+		}
+		.s2-slider {
+			position: relative;
+		}
+		.s2-viewport {
+			overflow: hidden;
+			/* 호버 그림자가 잘리지 않도록 여백 확보 — 좌우 여백은 카드 간격(24px)과 같게 해서 옆 카드가 비치지 않게 함 */
+			margin: -40px -24px;
+			padding: 40px 24px;
+		}
+		.s2-track {
+			display: flex;
+			gap: 24px;
+			transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+		}
+		.s2-card {
+			flex: 0 0 calc((100% - 72px) / 4);
+			min-width: 0;
+			padding: 32px;
+			border-radius: 16px;
+			background: #f9f9f9;
+			transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+		}
+		.s2-card:hover {
+			background: #fff;
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+			transform: translateY(-4px);
+		}
+		.s2-card .inner {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			height: 196px;
+		}
+		.s2-card .tag {
+			align-self: flex-start;
+			padding: 4px 8px;
+			border-radius: 10px;
+			font-size: 17px;
+			font-weight: 600;
+			line-height: 1.4;
+			color: #fff;
+		}
+		.s2-card .text {
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+		}
+		.s2-card .title {
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 3;
+			overflow: hidden;
+			font-size: 20px;
+			font-weight: 600;
+			line-height: 1.4;
+			color: #12161f;
+		}
+		.s2-card .date {
+			font-size: 17px;
+			line-height: 1.5;
+			color: #000;
+		}
+		.s2-arrow {
+			position: absolute;
+			top: 50%;
+			z-index: 2;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 42px;
+			height: 42px;
+			border: 1px solid rgba(0, 0, 0, 0.1);
+			border-radius: 999px;
+			background: #fff;
+			transform: translateY(-50%);
+			transition: border-color 0.2s ease, opacity 0.2s ease;
+		}
+		.s2-arrow:hover {
+			border-color: var(--purple);
+		}
+		.s2-arrow:disabled {
+			opacity: 0.35;
+			cursor: default;
+		}
+		.s2-arrow img {
+			width: 19.765px;
+			height: 19.765px;
+		}
+		.s2-arrow.prev {
+			left: -72px;
+		}
+		.s2-arrow.next {
+			right: -67px;
+		}
+		.s2-arrow.next img {
+			transform: scaleX(-1);
+		}
+
+		/* ---- Section 3 / 4 공통 : 좌측 텍스트 + 우측 카드 캐러셀 ---- */
+		.split {
+			position: relative;
+			display: flex;
+			align-items: center;
+			gap: 90px;
+		}
+		.split .lead {
+			flex-shrink: 0;
+		}
+		.split .lead .title {
+			font-size: 48px;
+			font-weight: 700;
+			line-height: 1.3;
+			letter-spacing: -0.96px;
+			white-space: nowrap;
+		}
+		.split .lead .desc {
+			font-size: 18px;
+			line-height: 1.5;
+			letter-spacing: -0.18px;
+		}
+		.more-btn {
+			display: inline-flex;
+			align-items: center;
+			gap: 40px;
+			padding: 15px 30px;
+			border: 1px solid;
+			font-size: 18px;
+			font-weight: 500;
+			line-height: 32px;
+			letter-spacing: -0.18px;
+			transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+		}
+		.more-btn img {
+			width: 35.5px;
+			height: 7.364px;
+			transition: transform 0.25s ease, filter 0.25s ease;
+		}
+		.more-btn:hover img {
+			transform: translateX(6px);
+		}
+		.pager {
+			display: flex;
+			align-items: center;
+			gap: 20px;
+		}
+		.pager .nav {
+			display: flex;
+			align-items: center;
+			gap: 28px;
+		}
+		.pager .nums-wrap {
+			display: flex;
+			align-items: center;
+			gap: 29px;
+		}
+		.pager .arrow,
+		.pager .toggle {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: opacity 0.2s ease;
+		}
+		.pager .arrow:hover,
+		.pager .toggle:hover {
+			opacity: 0.6;
+		}
+		.pager .arrow img {
+			width: 24px;
+			height: 24px;
+		}
+		.pager .arrow.next img {
+			transform: scaleX(-1);
+		}
+		.pager .toggle img {
+			width: 29px;
+			height: 29px;
+		}
+		.pager .toggle .play {
+			display: none;
+		}
+		.pager.paused .toggle .play {
+			display: block;
+		}
+		.pager.paused .toggle .stop {
+			display: none;
+		}
+		.pager .nums {
+			display: flex;
+			align-items: center;
+			gap: 18px;
+		}
+		.pager .num {
+			font-family: 'GmarketSans', 'Pretendard', sans-serif;
+			font-size: 15px;
+			font-weight: 500;
+			line-height: 1.6;
+			opacity: 0.5;
+			transition: opacity 0.2s ease;
+		}
+		.pager .num.active {
+			font-weight: 700;
+			opacity: 1;
+		}
+		.pager .dot {
+			width: 2.376px;
+			height: 2.502px;
+		}
+		/* 카드 3장만 노출: 기본은 디자인 카드 폭(--card-w) × 3,
+		   화면 오른쪽 끝까지의 공간이 부족하면 3장이 딱 맞게 줄어듦 */
+		.carousel {
+			--gap: 60px;
+			flex: 1 1 0;
+			min-width: 0;
+			max-width: calc(var(--card-w) * 3 + var(--gap) * 2);
+			/* 화면 오른쪽 끝 − 고정 퀵메뉴(90px) + 여유 20px 까지 확장 */
+			margin-right: calc((var(--container) - 100vw) / 2 + 110px);
+			/* 좌우는 3장 영역에서 잘라내고, 위아래는 그림자 여유 */
+			clip-path: inset(-60px 0 -60px 0);
+		}
+		#s3-carousel {
+			--card-w: 320px;
+		}
+		#s4-carousel {
+			--card-w: 400px;
+		}
+		.carousel-track {
+			display: flex;
+			gap: var(--gap);
+		}
+		.carousel-track.animate {
+			transition: transform 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+		}
+		.carousel-track > * {
+			flex: 0 0 calc((100% - var(--gap) * 2) / 3);
+			min-width: 0;
+		}
+
+		/* ---- Section 3 : 인허가 대행 / 규정 요약 ---- */
+		#hc-s3 {
+			color: #fff;
+			background: #7d7468;
+		}
+		.s3-bg {
+			position: absolute;
+			inset: 0;
+			overflow: hidden;
+			transform: scaleX(-1); /* 배경 이미지 좌우 반전 */
+		}
+		.s3-bg img {
+			position: absolute;
+			left: 0.01%;
+			top: -15.69%;
+			width: 117.28%;
+			height: 115.71%;
+			max-width: none;
+		}
+		.s3-bg::after {
+			content: '';
+			position: absolute;
+			inset: 0;
+			background: rgba(0, 0, 0, 0.32);
+		}
+		#hc-s3 .lead {
+			display: flex;
+			flex-direction: column;
+			gap: 60px;
+		}
+		#hc-s3 .lead-top {
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 45px;
+		}
+		#hc-s3 .lead-text {
+			display: flex;
+			flex-direction: column;
+			gap: 24px;
+		}
+		#hc-s3 .more-btn {
+			border-color: #fff;
+			color: #fff;
+		}
+		#hc-s3 .more-btn:hover {
+			background: rgba(255, 255, 255, 0.12);
+		}
+		#hc-s3 .pager .num {
+			color: #fff;
+		}
+		.s3-card {
+			position: relative;
+			height: 400px;
+			overflow: hidden;
+			padding: 30px 32px;
+			border-radius: 12px;
+			background: rgba(255, 255, 255, 0.6);
+			backdrop-filter: blur(12.5px);
+			box-shadow: 0 20px 30px rgba(0, 0, 0, 0.16);
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+			transition: background 0.3s ease, transform 0.3s ease;
+		}
+		.s3-card.text-only {
+			justify-content: space-between;
+		}
+		.s3-card:hover {
+			background: rgba(255, 255, 255, 0.85);
+			transform: translateY(-6px);
+		}
+		.s3-card .head {
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+		}
+		.s3-card .cat {
+			font-size: 17px;
+			font-weight: 500;
+			line-height: 1.5;
+			letter-spacing: -0.17px;
+			color: #444;
+		}
+		.s3-card .title {
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2;
+			overflow: hidden;
+			font-size: 21px;
+			font-weight: 600;
+			line-height: 1.5;
+			letter-spacing: -0.21px;
+			color: #333;
+		}
+		.s3-card.text-only .title {
+			-webkit-line-clamp: 6;
+		}
+		.s3-card .date {
+			padding: 0 4px;
+			font-size: 16px;
+			line-height: 21px;
+			letter-spacing: -0.16px;
+			color: #606060;
+		}
+		.s3-card .thumb {
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			width: 288px;
+			height: 218px;
+			overflow: hidden;
+		}
+		.s3-card .thumb img {
+			width: 100%;
+			height: 132.11%;
+			max-width: none;
+			object-fit: cover;
+			object-position: top;
+			transition: transform 0.5s ease;
+		}
+		.s3-card:hover .thumb img {
+			transform: scale(1.04);
+		}
+
+		/* ---- Section 4 : 해외 동향 ---- */
+		#hc-s4 {
+			background: #fff;
+		}
+		#hc-s4 .split {
+			align-items: stretch;
+		}
+		#hc-s4 .lead {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			align-items: flex-start;
+			width: 450px;
+			padding: 24px 0;
+		}
+		#hc-s4 .lead {
+			position: relative;
+			isolation: isolate;
+		}
+		/* 타이틀 뒤 회전 지구 (토스 푸터 지구 스타일: 위경도 격자선 + 대륙 점) */
+		#hc-s4 .split {
+			z-index: 1;
+		}
+		.s4-globe {
+			position: absolute;
+			left: -20%;
+			bottom: -34%;
+			z-index: 0;
+			width: 1600px;
+			height: 1600px;
+			opacity: 0;
+			pointer-events: none;
+		}
+		.in-view .s4-globe {
+			animation: hc-fade 1.6s ease-out 0.2s both;
+		}
+		#hc-s4 .lead-text {
+			display: flex;
+			flex-direction: column;
+			gap: 24px;
+		}
+		#hc-s4 .lead .title {
+			font-family: 'Pretendard GOV', 'Pretendard', sans-serif;
+			letter-spacing: -0.32px;
+			color: #111;
+		}
+		#hc-s4 .lead .title em {
+			font-style: normal;
+			color: var(--purple);
+		}
+		#hc-s4 .desc {
+			color: #444;
+		}
+		#hc-s4 .more-btn {
+			border-color: rgba(0, 0, 0, 0.1);
+			color: #000;
+		}
+		#hc-s4 .more-btn:hover {
+			background: var(--purple);
+			border-color: var(--purple);
+			color: #fff;
+		}
+		/* 검정 화살표 SVG를 흰색으로 */
+		#hc-s4 .more-btn:hover img {
+			filter: brightness(0) invert(1);
+		}
+		#hc-s4 .pager .num {
+			color: #101010;
+		}
+		#hc-s4 .pager .num.active {
+			color: var(--purple);
+		}
+		.s4-card {
+			display: flex;
+			flex-direction: column;
+			gap: 24px;
+		}
+		.s4-card .thumb {
+			position: relative;
+			display: flex;
+			align-items: flex-end;
+			justify-content: center;
+			height: 290.365px;
+			overflow: hidden;
+			border-radius: 12px;
+			background: #f9f9f9;
+		}
+		.s4-card .book {
+			position: relative;
+			width: 198.673px;
+			height: 250.631px;
+			transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+		}
+		.s4-card:hover .book {
+			transform: translateY(-10px);
+		}
+		.s4-card .book .back {
+			position: absolute;
+			left: calc(50% + 5.35px);
+			top: 9.17px;
+			width: 187.973px;
+			height: 241.462px;
+			transform: translateX(-50%);
+			border-radius: 15.282px 15.282px 0 0;
+			background: #e9e9e9;
+		}
+		.s4-card .book img {
+			position: absolute;
+			left: calc(50% - 6.88px);
+			top: 0;
+			width: 184.917px;
+			height: 250.631px;
+			transform: translateX(-50%);
+			border-radius: 15.282px 15.282px 0 0;
+			object-fit: cover;
+		}
+		.s4-card .info {
+			display: flex;
+			flex-direction: column;
+			gap: 40px;
+		}
+		.s4-card .title {
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2;
+			overflow: hidden;
+			font-family: 'Pretendard GOV', 'Pretendard', sans-serif;
+			font-size: 20px;
+			font-weight: 700;
+			line-height: 1.4;
+			letter-spacing: 0;
+			white-space: normal;
+			color: #222;
+			transition: color 0.2s ease;
+		}
+		.s4-card:hover .title {
+			color: var(--purple);
+		}
+		.s4-card .date {
+			font-size: 16px;
+			letter-spacing: -0.16px;
+			color: #666;
+		}
+
+		/* ===== Footer ===== */
+		.hc-footer {
+			position: relative;
+			z-index: 2;
+			background: #f9f9f9;
+			font-family: 'Pretendard GOV', 'Pretendard', sans-serif;
+		}
+		.hc-footer .container {
+			padding: 32px 20px 40px;
+			display: flex;
+			flex-direction: column;
+			gap: 24px;
+		}
+		.hc-footer .info {
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+			font-size: 17px;
+			line-height: 1.5;
+		}
+		.hc-footer .info p:first-child {
+			color: #1d1d1d;
+		}
+		.hc-footer .info p:last-child {
+			color: #5b5b5b;
+		}
+		.hc-footer .copy {
+			font-size: 15px;
+			line-height: 1;
+			color: #555;
+		}
+	</style>
+
+	<div class="hc">
+		<a href="/delivery/helpcosmetic" class="hc-back">← 다른 시안 보기</a>
+
+		<!-- GNB -->
+		<header class="hc-header theme-dark" id="hc-header">
+			<a href="#" class="logo" data-goto="0">
+				<img class="on-dark" src={`${a}/logo-white.png`} alt="화장품 글로벌 규제조화 지원센터" />
+				<img class="on-light" src={`${a}/logo-dark.png`} alt="" />
+			</a>
+
+			<nav class="hc-gnb">
+				{
+					menu.map((item) => (
+						<div class="item">
+							<a href="#" class="top" data-label={item.label}>
+								{item.label}
+							</a>
+							{item.submenu && (
+								<div class="sub">
+									<div class="sub-box">
+										{item.submenu.map((sub) => (
+											<a href="#">{sub}</a>
+										))}
+									</div>
+								</div>
+							)}
+						</div>
+					))
+				}
+			</nav>
+
+			<div class="hc-util">
+				<button type="button" class="bell" aria-label="자료 업데이트 알림서비스 신청">
+					<span class="icon">
+						<img class="on-dark" src={`${a}/bell-white.svg`} alt="" />
+						<img class="on-light" src={`${a}/bell-dark.svg`} alt="" />
+					</span>
+					<span class="tip"><span></span><span>자료 업데이트 알림서비스 신청</span></span>
+				</button>
+				<button type="button" class="menu" aria-label="전체 메뉴">
+					<span class="icon">
+						<img class="on-dark" src={`${a}/menu-white.svg`} alt="" />
+						<img class="on-light" src={`${a}/menu-dark.svg`} alt="" />
+					</span>
+				</button>
+			</div>
+		</header>
+
+		<nav class="hc-navi theme-dark" id="hc-navi" aria-label="섹션 이동">
+			{[0, 1, 2, 3].map((i) => (
+				<button type="button" class={i === 0 ? 'active' : ''} data-index={i} aria-label={`${i + 1}번째 섹션`}>
+					<span></span>
+				</button>
+			))}
+		</nav>
+
+		<!-- 퀵메뉴 · 챗봇 (모든 섹션 fixed, 퀵메뉴는 섹션 테마에 따라 색 전환) -->
+		<nav class="hc-quick theme-dark" id="hc-quick" aria-label="바로가기">
+			{
+				quickLinks.map((q) => (
+					<a href="#">
+						<span class="circle">
+							<img src={`${a}/${q.icon}`} alt="" style={`width:${q.w}px;height:${q.h}px`} />
+						</span>
+						<span>
+							{q.label.map((l, i) => (
+								<>
+									{i > 0 && <br />}
+									{l}
+								</>
+							))}
+						</span>
+					</a>
+				))
+			}
+		</nav>
+
+		<a href="#" class="hc-chatbot" aria-label="AI 코스봇 챗봇">
+			<span class="circle">
+				<span class="robot"><img src={`${a}/s1-robot.png`} alt="" /></span>
+			</span>
+			<span class="badge">AI</span>
+		</a>
+
+		<div class="hc-spacer" id="hc-spacer">
+			<div class="hc-fixed" id="hc-fixed">
+				<div class="hc-track" id="hc-track">
+					<!-- Section 1 : Hero -->
+					<section class="hc-section" id="hc-s1" data-theme="dark">
+						<div class="s1-bg">
+							<!-- [보관] 지구 배경 이미지: 영상 대신 쓸 때 아래 주석 해제 + video 제거 (CSS 주석도 함께 해제)
+							<img src="/deliveries/helpcosmetic/main-live1/s1-hero.jpg" alt="" />
+							-->
+							<video id="s1-video" autoplay muted loop playsinline preload="auto" poster={`${a}/s1-hero-poster.jpg`} aria-hidden="true">
+								<source src={`${a}/s1-hero.mp4`} type="video/mp4" />
+							</video>
+						</div>
+
+						<h1 class="s1-title" id="s1-title">
+							<span class="title-set">
+								<span class="t-line">국가마다 다른 복잡한 인증기준,</span>
+								<span class="t-line">어디서부터 시작해야 할지 몰라도 괜찮아요</span>
+							</span>
+							<span class="title-set" aria-hidden="true">
+								<span class="t-line">수출국 입력부터 필수 가이드라인 다운로드까지,</span>
+								<span class="t-line">필요한 모든 과정을 한번에 해결하세요</span>
+							</span>
+						</h1>
+
+						<div class="s1-search-area reveal-up">
+							<form class="s1-search" role="search" onsubmit="return false;">
+								<input type="search" placeholder="주요 법령 및 키워드를 입력해보세요" aria-label="검색어" />
+								<button type="submit" aria-label="검색"><img src={`${a}/search.svg`} alt="" /></button>
+							</form>
+							<div class="s1-keywords">
+								<strong>검색키워드</strong>
+								<div>
+									{keywords.map((k) => (
+										<a href="#">{k}</a>
+									))}
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<!-- Section 2 : 해외 법령 -->
+					<section class="hc-section" id="hc-s2" data-theme="light">
+						<img class="s2-grid" src={`${a}/s2-grid.svg`} alt="" />
+						<div class="container s2-body">
+							<div class="s2-head">
+								<h2 class="s2-title">
+									<span class="reveal-line">해외 법령,</span>
+									<span class="reveal-line">어디서 찾아야 할지 막막할 때</span>
+								</h2>
+								<p class="s2-desc gov reveal-fade">진출하려는 국가의 필수 규제를 한곳에서 찾아보세요.</p>
+								<img class="s2-globe" src={`${a}/s2-globe.png`} alt="" />
+							</div>
+
+							<div class="s2-slider reveal-up" id="s2-slider">
+								<button type="button" class="s2-arrow prev" aria-label="이전"><img src={`${a}/s2-arrow.svg`} alt="" /></button>
+								<div class="s2-viewport">
+									<div class="s2-track">
+										{
+											laws.map((l) => (
+												<a href="#" class="s2-card gov">
+													<div class="inner">
+														<span class="tag" style={`background:${l.color}`}>
+															{l.tag}
+														</span>
+														<div class="text">
+															<p class="title">{l.title}</p>
+															<p class="date">{l.date}</p>
+														</div>
+													</div>
+												</a>
+											))
+										}
+									</div>
+								</div>
+								<button type="button" class="s2-arrow next" aria-label="다음"><img src={`${a}/s2-arrow.svg`} alt="" /></button>
+							</div>
+						</div>
+					</section>
+
+					<!-- Section 3 : 인허가 대행 / 규정 요약 -->
+					<section class="hc-section" id="hc-s3" data-theme="dark">
+						<div class="s3-bg"><img src={`${a}/s3-bg.jpg`} alt="" /></div>
+						<div class="container split">
+							<div class="lead">
+								<div class="lead-top">
+									<div class="lead-text">
+										<h2 class="title">
+											<span class="reveal-line">인허가 대행부터</span>
+											<span class="reveal-line">규정 요약까지,</span>
+											<span class="reveal-line">어디서부터 시작할까요?</span>
+										</h2>
+										<p class="desc reveal-fade">
+											인허가 대행사 정보와 꼭 필요한 해외 규정 자료를<br />한눈에 확인해 보세요.
+										</p>
+									</div>
+									<a href="#" class="more-btn reveal-fade">자세히보기<img src={`${a}/arrow-white.svg`} alt="" /></a>
+								</div>
+								<div class="pager reveal-fade" data-carousel="s3">
+									<div class="nav">
+										<div class="nums-wrap">
+											<button type="button" class="arrow prev" aria-label="이전"><img src={`${a}/prev-white.svg`} alt="" /></button>
+											<div class="nums">
+												<span class="num active" data-current>01</span>
+												<img class="dot" src={`${a}/dot-white.svg`} alt="" />
+												<span class="num">{pad(resources.length)}</span>
+											</div>
+										</div>
+										<button type="button" class="arrow next" aria-label="다음"><img src={`${a}/next-white.svg`} alt="" /></button>
+									</div>
+									<button type="button" class="toggle" aria-label="자동재생 정지/재생">
+										<img class="stop" src={`${a}/stop-white.svg`} alt="" />
+										<svg class="play" width="29" height="29" viewBox="0 0 29 29" fill="none"><path d="M11 8.5L20.5 14.5L11 20.5V8.5Z" fill="white" /></svg>
+									</button>
+								</div>
+							</div>
+
+							<div class="carousel reveal-up" id="s3-carousel">
+								<div class="carousel-track">
+									{
+										resources.map((r) => (
+											<a href="#" class={`s3-card${r.img ? '' : ' text-only'}`}>
+												<div class="head">
+													<p class="cat">{r.cat}</p>
+													<p class="title">{r.title}</p>
+												</div>
+												<p class="date">{r.date}</p>
+												{r.img && (
+													<span class="thumb">
+														<img src={`${a}/${r.img}`} alt="" />
+													</span>
+												)}
+											</a>
+										))
+									}
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<!-- Section 4 : 해외 동향 -->
+					<section class="hc-section" id="hc-s4" data-theme="light">
+						<canvas class="s4-globe" id="s4-globe" data-mask={`${a}/land-mask.json`} aria-hidden="true"></canvas>
+						<div class="container split">
+							<div class="lead">
+								<div class="lead-text">
+									<h2 class="title">
+										<span class="reveal-line">요즘 <em>해외시장</em>은</span>
+										<span class="reveal-line">어떻게 바뀌고 있을까요?</span>
+									</h2>
+									<p class="desc reveal-fade">
+										글로벌 트렌드부터 국가별 최신 현지 이슈까지<br />핵심만 빠르게 전해드릴게요.
+									</p>
+								</div>
+								<a href="#" class="more-btn reveal-fade">자세히보기<img src={`${a}/arrow-dark.svg`} alt="" /></a>
+								<div class="pager reveal-fade" data-carousel="s4">
+									<div class="nav">
+										<div class="nums-wrap">
+											<button type="button" class="arrow prev" aria-label="이전"><img src={`${a}/prev-dark.svg`} alt="" /></button>
+											<div class="nums">
+												<span class="num active" data-current>01</span>
+												<img class="dot" src={`${a}/dot-dark.svg`} alt="" />
+												<span class="num">{pad(reports.length)}</span>
+											</div>
+										</div>
+										<button type="button" class="arrow next" aria-label="다음"><img src={`${a}/next-dark.svg`} alt="" /></button>
+									</div>
+									<button type="button" class="toggle" aria-label="자동재생 정지/재생">
+										<img class="stop" src={`${a}/stop-dark.svg`} alt="" />
+										<svg class="play" width="29" height="29" viewBox="0 0 29 29" fill="none"><path d="M11 8.5L20.5 14.5L11 20.5V8.5Z" fill="#101010" /></svg>
+									</button>
+								</div>
+							</div>
+
+							<div class="carousel reveal-up" id="s4-carousel">
+								<div class="carousel-track">
+									{
+										reports.map((r) => (
+											<a href="#" class="s4-card">
+												<span class="thumb">
+													<span class="book">
+														<span class="back" />
+														<img src={`${a}/${r.cover}`} alt="" />
+													</span>
+												</span>
+												<span class="info">
+													<span class="title">{r.title}</span>
+													<span class="date">{r.date}</span>
+												</span>
+											</a>
+										))
+									}
+								</div>
+							</div>
+						</div>
+					</section>
+				</div>
+			</div>
+		</div>
+
+		<footer class="hc-footer">
+			<div class="container">
+				<div class="info">
+					<p>충북 청주시 흥덕구 오송읍 오송생명2로 187 식품의약품안전처</p>
+					<p>TEL: 070-8709-8614 | FAX : 02-782-6659 | E-MAIL : a007@kcia.or.kr</p>
+				</div>
+				<p class="copy">© COPYRIGHT MINISTRY OF FOOD AND DRUG SAFETY. All rights reserved.</p>
+			</div>
+		</footer>
+	</div>
+
+	<script>
+		/* ============================================================
+		 * 1) 패럴럭스 섹션 전환 (taean gunsu1과 동일한 방식)
+		 *    휠 1회 = 1섹션, 관성 tail 무시, 전환 중 입력은 대기 후 이어서 처리,
+		 *    마지막 섹션에서 한 번 더 내리면 footer까지 애니메이션 스크롤
+		 * ============================================================ */
+		const track = document.getElementById('hc-track')!;
+		const header = document.getElementById('hc-header')!;
+		const navi = document.getElementById('hc-navi')!;
+		const quick = document.getElementById('hc-quick')!;
+		const fixedEl = document.getElementById('hc-fixed')!;
+		const spacerEl = document.getElementById('hc-spacer')!;
+		const sections = Array.from(document.querySelectorAll<HTMLElement>('.hc-section'));
+		const naviButtons = Array.from(navi.querySelectorAll<HTMLButtonElement>('button'));
+		const total = sections.length;
+
+		const ANIM_MS = 850;
+		const GESTURE_GAP_MS = 150; // 이 시간 이상 조용했다가 다시 들어오면 새 제스처로 간주
+
+		let current = 0;
+		let mode: 'locked' | 'free' = 'locked'; // free = footer가 열린 상태
+		let animating = false;
+		let lastWheelTime = 0;
+		let lastDirection = 0;
+		let gestureConsumed = false;
+		let pendingDirection: number | null = null;
+		let revealTimer: number | undefined;
+
+		function applyTheme(i: number) {
+			const theme = sections[i].dataset.theme;
+			for (const el of [header, navi, quick]) {
+				el.classList.toggle('theme-dark', theme === 'dark');
+				el.classList.toggle('theme-light', theme === 'light');
+			}
+			naviButtons.forEach((b, idx) => b.classList.toggle('active', idx === i));
+		}
+
+		function triggerReveal(index: number) {
+			sections.forEach((s, i) => {
+				if (i === index) {
+					// 재방문 시에도 모션이 다시 재생되도록 클래스를 뗐다 붙인다
+					s.classList.remove('in-view');
+					void s.offsetWidth;
+					s.classList.add('in-view');
+				} else {
+					s.classList.remove('in-view');
+				}
+			});
+			document.dispatchEvent(new CustomEvent('hc:section', { detail: index }));
+		}
+
+		function goTo(index: number) {
+			current = Math.max(0, Math.min(total - 1, index));
+			track.style.transform = `translateY(-${current * 100}vh)`;
+			applyTheme(current);
+			// 트랙 전환이 끝난 뒤 텍스트 모션 시작
+			clearTimeout(revealTimer);
+			const revealIndex = current;
+			revealTimer = window.setTimeout(() => triggerReveal(revealIndex), ANIM_MS);
+		}
+
+		function freeBoundaryY() {
+			const spacerTop = spacerEl.getBoundingClientRect().top + window.scrollY;
+			return spacerTop + spacerEl.offsetHeight - window.innerHeight;
+		}
+
+		const easeInOutCubic = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+		function tweenScrollTo(fromY: number, toY: number, duration: number, onDone?: () => void) {
+			let start: number | null = null;
+			function frame(ts: number) {
+				if (start === null) start = ts;
+				const t = Math.min(1, (ts - start) / duration);
+				window.scrollTo(0, fromY + (toY - fromY) * easeInOutCubic(t));
+				if (t < 1) requestAnimationFrame(frame);
+				else onDone?.();
+			}
+			requestAnimationFrame(frame);
+		}
+
+		function afterStep() {
+			animating = false;
+			if (pendingDirection !== null) {
+				const dir = pendingDirection;
+				pendingDirection = null;
+				step(dir);
+			}
+		}
+
+		function goFooter() {
+			animating = true;
+			mode = 'free';
+			const boundaryY = freeBoundaryY();
+			fixedEl.classList.add('is-free');
+			window.scrollTo(0, boundaryY);
+			const maxY = document.documentElement.scrollHeight - window.innerHeight;
+			tweenScrollTo(boundaryY, maxY, ANIM_MS, afterStep);
+		}
+
+		function backFromFooter() {
+			animating = true;
+			tweenScrollTo(window.scrollY, freeBoundaryY(), ANIM_MS, () => {
+				fixedEl.classList.remove('is-free');
+				mode = 'locked';
+				window.scrollTo(0, 0);
+				afterStep();
+			});
+		}
+
+		function jumpTo(idx: number) {
+			if (mode !== 'locked') {
+				mode = 'locked';
+				fixedEl.classList.remove('is-free');
+				window.scrollTo(0, 0);
+			} else if (animating || idx === current) {
+				return;
+			}
+			animating = true;
+			goTo(idx);
+			window.setTimeout(() => (animating = false), ANIM_MS);
+		}
+
+		function step(direction: number) {
+			if (direction > 0) {
+				if (mode === 'free') return;
+				if (current >= total - 1) return goFooter();
+				animating = true;
+				goTo(current + 1);
+				window.setTimeout(afterStep, ANIM_MS);
+			} else {
+				if (mode === 'free') return backFromFooter();
+				if (current <= 0) return;
+				animating = true;
+				goTo(current - 1);
+				window.setTimeout(afterStep, ANIM_MS);
+			}
+		}
+
+		function request(direction: number) {
+			if (animating) pendingDirection = direction;
+			else step(direction);
+		}
+
+		window.addEventListener(
+			'wheel',
+			(e) => {
+				e.preventDefault();
+				const direction = Math.sign(e.deltaY);
+				if (direction === 0) return;
+
+				const now = Date.now();
+				// 조용했다가 다시 들어왔거나 방향이 뒤집히면 새 제스처
+				if (now - lastWheelTime >= GESTURE_GAP_MS || direction !== lastDirection) gestureConsumed = false;
+				lastWheelTime = now;
+				lastDirection = direction;
+
+				if (gestureConsumed) return; // 관성 tail 무시
+				gestureConsumed = true;
+				request(direction);
+			},
+			{ passive: false }
+		);
+
+		window.addEventListener('keydown', (e) => {
+			if ((e.target as HTMLElement).closest('input, textarea')) return;
+			if (['ArrowDown', 'PageDown', ' '].includes(e.key)) {
+				e.preventDefault();
+				request(1);
+			} else if (['ArrowUp', 'PageUp'].includes(e.key)) {
+				e.preventDefault();
+				request(-1);
+			}
+		});
+
+		// 터치(태블릿) 스와이프
+		let touchStartY: number | null = null;
+		window.addEventListener('touchstart', (e) => (touchStartY = e.touches[0].clientY), { passive: true });
+		window.addEventListener(
+			'touchmove',
+			(e) => {
+				if (touchStartY === null) return;
+				e.preventDefault();
+				const dy = touchStartY - e.touches[0].clientY;
+				if (Math.abs(dy) > 40) {
+					request(Math.sign(dy));
+					touchStartY = null;
+				}
+			},
+			{ passive: false }
+		);
+
+		naviButtons.forEach((b) => b.addEventListener('click', () => jumpTo(Number(b.dataset.index))));
+		document.querySelector('[data-goto="0"]')?.addEventListener('click', (e) => {
+			e.preventDefault();
+			jumpTo(0);
+		});
+
+		window.scrollTo(0, 0);
+		/* 히어로 타이틀 2줄 세트 교체 반복 — 섹션1에 있을 때만 동작, 재진입 시 첫 세트부터 다시
+		 *  1세트 등장 → 2초 유지 → 2세트로 크로스페이드 → 5초 유지 → 1세트로 크로스페이드 → 반복 */
+		{
+			const sets = Array.from(document.querySelectorAll<HTMLElement>('#s1-title .title-set'));
+			const HOLD_MS = [2000, 5000]; // 세트별 유지 시간 (등장 모션 ~1.1s 이후부터)
+			const IN_MS = 1100; // 등장 모션 길이 (0.9s + 2번째 줄 지연 0.18s)
+			const OVERLAP_MS = 350; // 이전 세트가 사라지기 시작하고 다음 세트가 등장하기까지 간격
+			let idx = 0;
+			let timer: number | undefined;
+
+			// 클래스 교체만으로 애니메이션이 바뀌므로 중간에 숨김 프레임이 생기지 않음
+			function setState(el: HTMLElement, state: 'in' | 'out' | 'hidden') {
+				el.classList.toggle('is-in', state === 'in');
+				el.classList.toggle('is-out', state === 'out');
+				if (state === 'in') el.removeAttribute('aria-hidden');
+				else el.setAttribute('aria-hidden', 'true');
+			}
+			function schedule() {
+				timer = window.setTimeout(next, IN_MS + HOLD_MS[idx % HOLD_MS.length]);
+			}
+			function next() {
+				setState(sets[idx], 'out');
+				idx = (idx + 1) % sets.length;
+				timer = window.setTimeout(() => {
+					setState(sets[idx], 'in');
+					schedule();
+				}, OVERLAP_MS);
+			}
+			document.addEventListener('hc:section', (e) => {
+				clearTimeout(timer);
+				sets.forEach((el) => setState(el, 'hidden'));
+				idx = 0;
+				if ((e as CustomEvent<number>).detail !== 0) return;
+				void sets[0].offsetWidth; // 재진입 시 등장 모션 재시작
+				setState(sets[0], 'in');
+				schedule();
+			});
+		}
+
+		// 배경 영상은 섹션1에 있을 때만 재생 (다른 섹션에서는 일시정지해 리소스 절약)
+		{
+			const video = document.getElementById('s1-video') as HTMLVideoElement;
+			document.addEventListener('hc:section', (e) => {
+				if ((e as CustomEvent<number>).detail === 0) video.play().catch(() => {});
+				else video.pause();
+			});
+		}
+
+		applyTheme(0);
+		triggerReveal(0);
+
+		/* ============================================================
+		 * 2) 섹션2 해외 법령 카드 슬라이더 (4개 노출, 1칸씩 이동)
+		 * ============================================================ */
+		{
+			const root = document.getElementById('s2-slider')!;
+			const trackEl = root.querySelector<HTMLElement>('.s2-track')!;
+			const cards = Array.from(trackEl.children) as HTMLElement[];
+			const prev = root.querySelector<HTMLButtonElement>('.prev')!;
+			const next = root.querySelector<HTMLButtonElement>('.next')!;
+			const VISIBLE = 4;
+			const GAP = 24;
+			let idx = 0;
+			const maxIdx = Math.max(0, cards.length - VISIBLE);
+
+			function render() {
+				const w = cards[0].offsetWidth + GAP;
+				trackEl.style.transform = `translateX(-${idx * w}px)`;
+				prev.disabled = idx === 0;
+				next.disabled = idx === maxIdx;
+			}
+			prev.addEventListener('click', () => {
+				idx = Math.max(0, idx - 1);
+				render();
+			});
+			next.addEventListener('click', () => {
+				idx = Math.min(maxIdx, idx + 1);
+				render();
+			});
+			window.addEventListener('resize', render);
+			render();
+		}
+
+		/* ============================================================
+		 * 3) 섹션3/4 카드 캐러셀 (3장 노출, 1장씩 왼쪽으로 슬라이드, 무한 루프 + 자동재생/일시정지)
+		 *    앞쪽 3장을 뒤에 복제해 두고, 끝(복제본 위치)에 도달하면 transition 없이 처음으로 되돌린다.
+		 * ============================================================ */
+		function setupCarousel(carouselId: string, pagerKey: string, sectionIndex: number) {
+			const carousel = document.getElementById(carouselId)!;
+			const trackEl = carousel.querySelector<HTMLElement>('.carousel-track')!;
+			const cards = Array.from(trackEl.children) as HTMLElement[];
+			const total = cards.length;
+			const VISIBLE = 3;
+			cards.slice(0, VISIBLE).forEach((c) => {
+				const clone = c.cloneNode(true) as HTMLElement;
+				clone.setAttribute('aria-hidden', 'true');
+				clone.tabIndex = -1;
+				trackEl.appendChild(clone);
+			});
+			const pager = document.querySelector<HTMLElement>(`[data-carousel="${pagerKey}"]`)!;
+			const currentNum = pager.querySelector<HTMLElement>('[data-current]')!;
+			const INTERVAL = 4000;
+			const MOVE_MS = 700;
+			let idx = 0;
+			let moving = false;
+			let timer: number | undefined;
+			let paused = false;
+
+			const stepPx = () => cards[0].offsetWidth + (parseFloat(getComputedStyle(trackEl).columnGap) || 0);
+			const pad2 = (n: number) => String(n).padStart(2, '0');
+
+			function setPos(animate: boolean) {
+				trackEl.classList.toggle('animate', animate);
+				trackEl.style.transform = `translateX(-${idx * stepPx()}px)`;
+				currentNum.textContent = pad2((idx % total) + 1);
+			}
+			function go(dir: number) {
+				if (moving) return;
+				moving = true;
+				if (dir < 0 && idx === 0) {
+					// 처음에서 이전: 복제본 위치(= 처음과 같은 모습)로 순간 이동 후 한 칸 뒤로
+					idx = total;
+					setPos(false);
+					void trackEl.offsetWidth;
+				}
+				idx += dir;
+				setPos(true);
+				window.setTimeout(() => {
+					if (idx >= total) {
+						idx -= total;
+						setPos(false);
+					}
+					moving = false;
+				}, MOVE_MS);
+				restart();
+			}
+			function restart() {
+				clearInterval(timer);
+				// 해당 섹션이 화면에 있을 때만 자동재생
+				if (!paused && current === sectionIndex) timer = window.setInterval(() => go(1), INTERVAL);
+			}
+			const render = () => setPos(false);
+
+			pager.querySelector('.prev')!.addEventListener('click', () => go(-1));
+			pager.querySelector('.next')!.addEventListener('click', () => go(1));
+			pager.querySelector('.toggle')!.addEventListener('click', () => {
+				paused = !paused;
+				pager.classList.toggle('paused', paused);
+				restart();
+			});
+			document.addEventListener('hc:section', restart);
+			window.addEventListener('resize', render);
+			render();
+		}
+
+		setupCarousel('s3-carousel', 's3', 2);
+		setupCarousel('s4-carousel', 's4', 3);
+
+		/* ============================================================
+		 * 4) 섹션4 타이틀 뒤 회전 지구 (canvas 2D)
+		 *    위경도 격자선 + 위도선을 따라 찍힌 대륙 점, 북극 쪽으로 기울여 천천히 자전
+		 *    대륙 데이터: world-atlas land-110m → 1° 비트마스크(land-mask.json)
+		 * ============================================================ */
+		{
+			const canvas = document.getElementById('s4-globe') as HTMLCanvasElement;
+			const ctx = canvas.getContext('2d')!;
+			const SIZE = 1600;
+			const R = 680;
+			const TILT = (24 * Math.PI) / 180; // 북극이 보이도록 앞으로 기울임
+			const SPEED = 0.00006; // rad/ms
+			const LINE = '#f0f0f0';
+			const DOT = [240, 240, 240];
+			const deg = Math.PI / 180;
+			const cosT = Math.cos(TILT);
+			const sinT = Math.sin(TILT);
+
+			const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+			canvas.width = SIZE * dpr;
+			canvas.height = SIZE * dpr;
+			ctx.scale(dpr, dpr);
+
+			// 구면좌표(위도, 경도) → 화면좌표 + 깊이(z > 0 이면 앞면)
+			function project(lat: number, lon: number, spin: number) {
+				const cl = Math.cos(lat);
+				const x = cl * Math.sin(lon + spin);
+				const y = Math.sin(lat);
+				const z0 = cl * Math.cos(lon + spin);
+				const y1 = y * cosT - z0 * sinT;
+				const z1 = y * sinT + z0 * cosT;
+				return [SIZE / 2 + R * x, SIZE / 2 - R * y1, z1];
+			}
+
+			// 대륙 점: 2.5° 간격 위도선마다, 적도 기준 1.2° 간격으로 배치 (고위도는 간격 보정)
+			let dots: [number, number][] = [];
+			fetch(canvas.dataset.mask!)
+				.then((r) => r.json())
+				.then(({ w, h, data }: { w: number; h: number; data: string }) => {
+					const bits = Uint8Array.from(atob(data), (c) => c.charCodeAt(0));
+					const land = (lat: number, lon: number) => {
+						const j = Math.min(h - 1, Math.floor(90 - lat));
+						const i = Math.min(w - 1, Math.floor(lon + 180));
+						const k = j * w + i;
+						return (bits[k >> 3] >> (k & 7)) & 1;
+					};
+					for (let lat = -87.5; lat <= 87.5; lat += 2.5) {
+						const step = 1.2 / Math.max(Math.cos(lat * deg), 0.15);
+						for (let lon = -180; lon < 180; lon += step) {
+							if (land(lat, lon)) dots.push([lat * deg, lon * deg]);
+						}
+					}
+					draw(performance.now());
+				});
+
+			function strokePath(points: number[][]) {
+				// 앞면 구간만 이어서 그림
+				let drawing = false;
+				ctx.beginPath();
+				for (const [x, y, z] of points) {
+					if (z > 0) {
+						if (drawing) ctx.lineTo(x, y);
+						else ctx.moveTo(x, y);
+						drawing = true;
+					} else drawing = false;
+				}
+				ctx.stroke();
+			}
+
+			function draw(t: number) {
+				const spin = t * SPEED;
+				ctx.clearRect(0, 0, SIZE, SIZE);
+
+				// 격자선: 위도 15°, 경도 15° 간격
+				ctx.strokeStyle = LINE;
+				ctx.lineWidth = 1;
+				for (let lat = -75; lat <= 75; lat += 15) {
+					const pts = [];
+					for (let lon = 0; lon <= 360; lon += 3) pts.push(project(lat * deg, lon * deg, spin));
+					strokePath(pts);
+				}
+				for (let lon = 0; lon < 360; lon += 15) {
+					const pts = [];
+					for (let lat = -90; lat <= 90; lat += 3) pts.push(project(lat * deg, lon * deg, spin));
+					strokePath(pts);
+				}
+
+				// 대륙 점: 가장자리로 갈수록 옅게
+				for (const [lat, lon] of dots) {
+					const [x, y, z] = project(lat, lon, spin);
+					if (z <= 0.02) continue;
+					ctx.fillStyle = `rgba(${DOT[0]}, ${DOT[1]}, ${DOT[2]}, ${(0.5 + z * 0.5).toFixed(3)})`;
+					ctx.fillRect(x - 1.2, y - 1.2, 2.4, 2.4);
+				}
+			}
+
+			// 섹션4가 화면에 있을 때만 애니메이션
+			let raf = 0;
+			function loop(t: number) {
+				draw(t);
+				raf = requestAnimationFrame(loop);
+			}
+			document.addEventListener('hc:section', (e) => {
+				cancelAnimationFrame(raf);
+				if ((e as CustomEvent<number>).detail === 3) raf = requestAnimationFrame(loop);
+			});
+		}
+	</script>
+</DeliveryLayout>
