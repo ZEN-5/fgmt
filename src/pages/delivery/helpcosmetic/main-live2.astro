@@ -633,14 +633,18 @@ const reports = ['2026년 6월', '2026년 5월', '2026년 4월', '2026년 3월']
 			height: 114px;
 			padding: 20px 34px 17px;
 			border-radius: 8px;
-			background: rgba(68, 75, 223, 0.72);
-			backdrop-filter: blur(10px);
-			-webkit-backdrop-filter: blur(10px);
-			box-shadow: 0 20px 30px rgba(0, 0, 0, 0.25);
+			/* 글래스: 보라 톤은 유지하되 투명도를 낮추고 반사광 그라데이션 + 강한 블러로 뒤 영상이 비치게 */
+			background: linear-gradient(135deg, rgba(68, 75, 223, 0.62) 0%, rgba(68, 75, 223, 0.5) 100%);
+			backdrop-filter: blur(20px) saturate(180%);
+			-webkit-backdrop-filter: blur(20px) saturate(180%);
+			box-shadow:
+				0 20px 30px rgba(0, 0, 0, 0.25),
+				inset 0 1px 1px rgba(255, 255, 255, 0.35),
+				inset 0 -1px 1px rgba(0, 0, 0, 0.08);
 			transition: background 0.2s ease;
 		}
 		.s1-search:focus-within {
-			background: rgba(68, 75, 223, 0.85);
+			background: linear-gradient(135deg, rgba(68, 75, 223, 0.75) 0%, rgba(68, 75, 223, 0.62) 100%);
 		}
 		.s1-search input {
 			flex: 1;
