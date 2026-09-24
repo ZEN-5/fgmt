@@ -44,17 +44,17 @@ drafts:
     href: "/delivery/helpcosmetic/main-live2"
     images:
       - "/deliveries/helpcosmetic/thumbnailMain2.jpg"
-  - slug: "e"
-    label: "콘텐츠 서브레이아웃"
-    section: "서브레이아웃/GNB"
-    thumbnail: "/deliveries/helpcosmetic/contents.jpg"
-    images:
-      - "/deliveries/helpcosmetic/contents.jpg"
-  - slug: "gnb"
-    label: "GNB 네비게이션 (호버 코드 구현)"
-    section: "서브레이아웃/GNB"
-    thumbnail: "/deliveries/helpcosmetic/thumbnailGnb.jpg"
-    href: "/delivery/helpcosmetic/gnb-live"
-    images:
-      - "/deliveries/helpcosmetic/thumbnailGnb.jpg"
+  # - slug: "e"
+  #   label: "콘텐츠 서브레이아웃"
+  #   section: "서브레이아웃/GNB"
+  #   thumbnail: "/deliveries/helpcosmetic/contents.jpg"
+  #   images:
+  #     - "/deliveries/helpcosmetic/contents.jpg"
+  # - slug: "gnb"
+  #   label: "GNB 네비게이션 (호버 코드 구현)"
+  #   section: "서브레이아웃/GNB"
+  #   thumbnail: "/deliveries/helpcosmetic/thumbnailGnb.jpg"
+  #   href: "/delivery/helpcosmetic/gnb-live"
+  #   images:
+  #     - "/deliveries/helpcosmetic/thumbnailGnb.jpg"
 ---
