@@ -52,7 +52,15 @@ const sections = delivery.data.drafts.reduce((acc, draft) => {
 								}`}
 							/>
 							<div class="px-4 py-3">
-								<p class="text-sm font-medium text-neutral-100">{draft.label}</p>
+								<p class="flex items-center gap-2 text-sm font-medium text-neutral-100">
+									{draft.live && (
+										<span class="relative flex size-2.5" aria-label="라이브">
+											<span class="absolute inline-flex size-full animate-ping rounded-full bg-red-500 opacity-75" />
+											<span class="relative inline-flex size-2.5 rounded-full bg-red-500" />
+										</span>
+									)}
+									{draft.label}
+								</p>
 							</div>
 						</a>
 					))}

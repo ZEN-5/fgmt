@@ -26,20 +26,22 @@ drafts:
   #     - "/deliveries/helpcosmetic/C1.jpg"
   #     - "/deliveries/helpcosmetic/C2.jpg"
   - slug: "d"
-    label: "Type C - 수정사항 반영"
+    label: "Type C"
     thumbnail: "/deliveries/helpcosmetic/thumbnailD.jpg"
     images:
       - "/deliveries/helpcosmetic/D_info.jpg"
       - "/deliveries/helpcosmetic/D1.jpg"
       - "/deliveries/helpcosmetic/D2.jpg"
   - slug: "main1"
-    label: "Type D - 메인 퍼블리싱"
+    label: "Live Design1"
+    live: true
     thumbnail: "/deliveries/helpcosmetic/thumbnailMain1.jpg"
     href: "/delivery/helpcosmetic/main-live1"
     images:
       - "/deliveries/helpcosmetic/thumbnailMain1.jpg"
   - slug: "main2"
-    label: "Type E - 메인 퍼블리싱"
+    label: "Live Design2"
+    live: true
     thumbnail: "/deliveries/helpcosmetic/thumbnailMain2.jpg"
     href: "/delivery/helpcosmetic/main-live2"
     images:
